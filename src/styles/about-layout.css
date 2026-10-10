@@ -1,0 +1,17 @@
+.about-section {
+  --about-padding: clamp(32px, 5vh, 96px);
+  --about-padding: clamp(32px, 5dvh, 96px);
+  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100dvh - var(--header-height));
+  display: grid;
+  align-items: center;
+  padding-block: var(--about-padding);
+}
+
+/* Short windows can shrink the photograph; content may always expand the section. */
+@media (min-width: 851px) {
+  .about-image {
+    height: clamp(260px, calc(100vh - var(--header-height) - 2 * var(--about-padding)), 530px);
+    height: clamp(260px, calc(100dvh - var(--header-height) - 2 * var(--about-padding)), 530px);
+  }
+}
