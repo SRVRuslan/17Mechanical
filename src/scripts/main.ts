@@ -1,5 +1,12 @@
 const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
 const navigation = document.querySelector<HTMLElement>('#navigation');
+const header = document.querySelector<HTMLElement>('.site-header');
+if (header) {
+  const updateHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+  updateHeader();
+  document.documentElement.classList.add('header-overlay-ready');
+  window.addEventListener('scroll', updateHeader, { passive: true });
+}
 function closeMenu() {
   menuButton?.setAttribute('aria-expanded', 'false');
   menuButton?.setAttribute('aria-label', 'Open navigation');

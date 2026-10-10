@@ -1,0 +1,51 @@
+:root { --header-height: 95px; }
+
+.site-header {
+  color: #fff;
+  background: #040404f2;
+  border-bottom-color: #ffffff20;
+  transition: background .25s, border-color .25s;
+}
+
+.header-overlay-ready .site-header:not(.is-scrolled) {
+  background: transparent;
+}
+
+.header-overlay-ready .menu-open .site-header { background: #040404f2; }
+.site-header .brand-name > span { color: var(--silver); }
+.site-header .brand-logo { border-radius: 50%; }
+.site-header .navigation > a:not(.button):hover { color: var(--orange); }
+.site-header .nav-cta { border-color: #ffffff40; }
+.site-header .menu-toggle span { background: #fff; }
+
+/* The existing hero photograph extends behind the header as one continuous image. */
+.hero { margin-top: calc(-1 * var(--header-height)); }
+.hero-inner {
+  min-height: calc(700px + var(--header-height));
+  padding-top: calc(70px + var(--header-height));
+}
+
+@media (min-width: 1800px) {
+  .hero-inner { min-height: calc(780px + var(--header-height)); }
+}
+
+@media (max-width: 1100px) {
+  .hero-inner { min-height: calc(640px + var(--header-height)); }
+}
+
+@media (max-width: 850px) {
+  :root { --header-height: 78px; }
+  .hero-inner {
+    min-height: calc(610px + var(--header-height));
+    padding-top: calc(65px + var(--header-height));
+  }
+  .site-header .navigation { background: #101010; }
+  .site-header .navigation > a:not(.button) { border-bottom-color: #ffffff25; }
+}
+
+@media (max-width: 600px) {
+  .hero-inner {
+    min-height: calc(640px + var(--header-height));
+    padding-top: calc(53px + var(--header-height));
+  }
+}
