@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
+import '../styles/hero-services.css';
 import { Picture } from 'astro:assets';
 import Icon from '../components/Icon.astro';
 import { company } from '../data/company';
@@ -80,8 +81,7 @@ const schema = {
           </div>
           <div class="hero-caption"><span class="caption-cross">+</span><span>A better environment.<br />From the rooftop down.</span></div>
           <div class="hero-service-bar">
-            {services.map(service => <a href={`#${service.id}`} class={`hero-service ${service.colour}`}><Icon name={service.icon} size={23} /><span>{service.number} <b>{service.id === 'cooling' ? 'Air conditioning' : service.id === 'heating' ? 'Heating' : 'Ventilation'}</b></span><Icon name="diagonal" size={16} /></a>)}
-            <span class="hero-location"><Icon name="pin" size={17} /> Calgary, Alberta</span>
+            {services.map(service => <a href={`#${service.id}`} class={`hero-service ${service.colour}`}><Icon name={service.icon} size={69} /><span><span class="hero-service-number">{service.number}</span><b>{service.id === 'cooling' ? 'Air conditioning' : service.id === 'heating' ? 'Heating' : 'Ventilation'}</b></span><Icon name="diagonal" size={48} /></a>)}
           </div>
         </div>
       </section>

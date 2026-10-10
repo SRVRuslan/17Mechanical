@@ -1,0 +1,61 @@
+.hero-service-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  min-height: 180px;
+  margin-top: auto;
+  border-top: 1px solid #ffffff36;
+}
+
+.hero-service {
+  display: grid;
+  grid-template-columns: 69px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding: 28px clamp(12px, 1.7vw, 24px);
+  border-right: 1px solid #ffffff25;
+  transition: background .25s;
+}
+
+.hero-service:first-child { padding-left: 0; }
+.hero-service:last-child { padding-right: 0; border-right: 0; }
+.hero-service:hover { background: #ffffff09; }
+.hero-service > svg:first-child { width: 69px; height: 69px; color: var(--orange); }
+.hero-service.blue > svg:first-child { color: #4394ff; }
+.hero-service.dark > svg:first-child { color: #d2d2d2; }
+.hero-service > svg:last-child { width: 48px; height: 48px; }
+.hero-service > span { display: grid; gap: 6px; min-width: 0; }
+.hero-service-number { color: #959595; font-size: 27px; line-height: 1; }
+.hero-service b { color: #fff; font-size: 36px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+.hero-caption { bottom: 225px; }
+
+@media (max-width: 1100px) and (min-width: 851px) {
+  .hero-service { grid-template-columns: 69px minmax(0, 1fr); }
+  .hero-service > span { grid-column: 1 / -1; }
+  .hero-service > svg:last-child { display: none; }
+}
+
+@media (max-width: 1300px) and (min-width: 1101px) {
+  .hero-service { grid-template-columns: 69px minmax(0, 1fr); }
+  .hero-service > svg:last-child { display: none; }
+}
+
+@media (max-width: 850px) {
+  .hero-service-bar { grid-template-columns: 1fr; }
+  .hero-service {
+    grid-template-columns: 69px minmax(0, 1fr) 48px;
+    padding: 24px 0;
+    border-right: 0;
+    border-bottom: 1px solid #ffffff25;
+  }
+  .hero-service:last-child { border-bottom: 0; }
+}
+
+@media (max-width: 600px) {
+  .hero-service { grid-template-columns: 57px minmax(0, 1fr) 36px; gap: 14px; }
+  .hero-service > svg:first-child { width: 57px; height: 57px; }
+  .hero-service > svg:last-child { width: 36px; height: 36px; }
+  .hero-service-number { font-size: 21px; }
+  .hero-service b { font-size: 27px; }
+}
