@@ -81,7 +81,7 @@ const schema = {
           </div>
           <div class="hero-caption"><span class="caption-cross">+</span><span>A better environment.<br />From the rooftop down.</span></div>
           <div class="hero-service-bar">
-            {services.map(service => <a href={`#${service.id}`} class={`hero-service ${service.colour}`}><Icon name={service.icon} size={69} /><span><span class="hero-service-number">{service.number}</span><b>{service.id === 'cooling' ? 'Air conditioning' : service.id === 'heating' ? 'Heating' : 'Ventilation'}</b></span><Icon name="diagonal" size={48} /></a>)}
+            {services.map(service => <a href={`#${service.id}`} class={`hero-service ${service.colour}`}><Icon name={service.icon} size={54} /><span><b>{service.id === 'cooling' ? 'Air conditioning' : service.id === 'heating' ? 'Heating' : 'Ventilation'}</b></span><Icon name="diagonal" size={36} /></a>)}
           </div>
         </div>
       </section>
