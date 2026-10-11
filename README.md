@@ -21,12 +21,12 @@ The production site is a static build in `dist/`; it does not require a server a
 
 ## Company details
 
-Update `src/data/company.ts` to change the name or logo. Copy `.env.example` to `.env` and add the company's actual contact details:
+The contact details in `src/data/company.ts` come from the supplied business card: Roman Aloshyn, +1 (403) 708-6905, and 17hvac@gmail.com. The phone and email are clickable and included in the business JSON-LD. To override them or configure a custom domain, copy `.env.example` to `.env`:
 
 ```dotenv
 SITE_URL=https://your-company-domain.ca
-PUBLIC_CONTACT_EMAIL=your-real-company-email
-PUBLIC_CONTACT_PHONE=your-real-company-phone
+PUBLIC_CONTACT_EMAIL=17hvac@gmail.com
+PUBLIC_CONTACT_PHONE="+1 (403) 708-6905"
 ```
 
 Rebuild after changing these values. The actual domain is used for canonical, Open Graph, sitemap, robots and JSON-LD URLs. Do not deploy example contact information.
