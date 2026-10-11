@@ -1,6 +1,6 @@
 # 17 Mechanical HVAC/R Ltd.
 
-Responsive, single-page commercial HVAC website for Calgary, built with Astro and TypeScript. The supplied logo is preserved in `src/assets/company-logo.jpeg` and `public/company-logo.jpeg`.
+Responsive, single-page commercial HVAC website for Calgary, built with Astro and TypeScript. The supplied logo is preserved in `src/assets/company-logo.jpeg` and `public/company-logo.jpeg`. The header, footer, favicon and JSON-LD use `company-emblem.png`: the central emblem extracted with built-in imagegen, with the outer circular lettering removed and a transparent background. The edit prompt is saved in `src/assets/company-emblem.prompt.md`.
 
 ## Run locally
 
