@@ -36,7 +36,7 @@ document.addEventListener('keydown', event => {
     }
   }
 });
-const desktopMedia = matchMedia('(min-width: 1101px)');
+const desktopMedia = matchMedia('(min-width: 1301px)');
 desktopMedia.addEventListener('change', event => { if (event.matches) closeMenu(); });
 
 // Progressive enhancement: content remains visible if JavaScript or IO is unavailable.
