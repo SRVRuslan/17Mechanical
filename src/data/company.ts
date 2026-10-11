@@ -6,6 +6,7 @@ export const company = {
   contactName: 'Roman Aloshyn',
   email: import.meta.env.PUBLIC_CONTACT_EMAIL || '17hvac@gmail.com',
   phone: import.meta.env.PUBLIC_CONTACT_PHONE || '+1 (403) 708-6905',
+  instagram: 'https://www.instagram.com/17mechanicalhvac_r/',
   city: 'Calgary',
   region: 'AB',
   country: 'CA',
