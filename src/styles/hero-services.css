@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   width: 100%;
-  min-height: 180px;
+  min-height: 120px;
   margin-top: auto;
   border-top: 1px solid #ffffff36;
 }
@@ -13,7 +13,7 @@
   align-items: center;
   gap: 16px;
   min-width: 0;
-  padding: 28px clamp(12px, 1.7vw, 24px);
+  padding: 16px clamp(12px, 1.7vw, 24px);
   border-right: 1px solid #ffffff25;
   transition: background .25s;
 }
@@ -26,8 +26,8 @@
 .hero-service.dark > svg:first-child { color: #d2d2d2; }
 .hero-service > svg:last-child { width: 36px; height: 36px; }
 .hero-service > span { min-width: 0; }
-.hero-service b { color: #fff; font-size: 28px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
-.hero-caption { bottom: 225px; }
+.hero-service b { color: #fff; font-size: 23.8px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+.hero-caption { bottom: 165px; }
 
 @media (max-width: 1100px) and (min-width: 851px) {
   .hero-service { grid-template-columns: 54px minmax(0, 1fr); }
@@ -43,7 +43,7 @@
   .hero-service-bar { grid-template-columns: 1fr; }
   .hero-service {
     grid-template-columns: 54px minmax(0, 1fr) 36px;
-    padding: 24px 0;
+    padding: 16px 0;
     border-right: 0;
     border-bottom: 1px solid #ffffff25;
   }
@@ -54,5 +54,5 @@
   .hero-service { grid-template-columns: 45px minmax(0, 1fr) 28px; gap: 14px; }
   .hero-service > svg:first-child { width: 45px; height: 45px; }
   .hero-service > svg:last-child { width: 28px; height: 28px; }
-  .hero-service b { font-size: 22px; }
+  .hero-service b { font-size: 18.7px; }
 }
