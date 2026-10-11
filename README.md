@@ -42,7 +42,7 @@ This first version does not fetch or display review text, ratings or review coun
 ## Design and performance
 
 - Brand colours: white `#FFFFFF`, orange `#F65607`, black `#040404`, silver `#BDBBBC`, royal blue `#0562E4`.
-- Original logo, two AI-generated editorial HVAC photographs, and a real Calgary skyline photograph by [Mahesh Gupta on Unsplash](https://unsplash.com/photos/a-city-with-a-river-running-through-it-Q3hxoJk4Sgw). The generated hero and mechanical-room images illustrate HVAC services and do not represent documented completed company projects. The About section shows the actual Calgary skyline and Bow River. See `src/assets/ATTRIBUTION.md` for photo provenance and licensing.
+- Original logo, generated editorial hero and mechanical-room images, and an edited technician image. The About image preserves the original generated mechanic and rooftop equipment; its background was replaced with a Calgary skyline based on a real photograph by [Mahesh Gupta on Unsplash](https://unsplash.com/photos/a-city-with-a-river-running-through-it-Q3hxoJk4Sgw), using built-in imagegen. It is an illustrative composite, not an unaltered documentary photo or a photograph of company staff. See `src/assets/ATTRIBUTION.md` and `src/assets/technician-calgary.prompt.md` for provenance and the edit prompt.
 - Astro Picture components generate responsive AVIF/WebP assets. Only the hero is loaded eagerly; other photographs are lazy-loaded.
 - Locally bundled Manrope font; no third-party font request, UI framework or animation library at runtime.
 - Flexible grids, fluid typography, mobile menu, visible keyboard focus, skip link, native FAQ accordions and labelled form controls.

@@ -8,5 +8,15 @@
 - Published on Unsplash: September 2, 2022.
 - Downloaded: October 11, 2026, at 2000 pixels wide.
 - License: Unsplash License, https://unsplash.com/license. The photo page marks this photo as free to use under that license, including commercial use.
-- Website use: About section. Astro produces responsive AVIF and WebP variants; CSS adjusts the visible crop to the container. The scene has not been generated or composited with AI.
-- Visible credit links to the original photographer's photo page.
+- Website use: Background source for the edited About image `technician-calgary.png`. The source skyline JPEG is retained unchanged. Astro produces responsive AVIF and WebP variants of the final composite; CSS adjusts its visible crop.
+- The visible skyline credit links to the original photographer's photo page.
+
+# Technician composite
+
+- Local website asset: `technician-calgary.png`.
+- Original foreground: the generated mechanic and rooftop HVAC equipment in `technician.png`.
+- Background source/reference: `calgary-skyline.jpg`, credited above.
+- Built-in imagegen edited the original image using both input images, preserving the person, tools and HVAC equipment and replacing the fictional distant skyline with the Calgary photographic reference.
+- This is an AI-assisted illustrative composite; it is not an unaltered photograph of company staff or a documented company project.
+- Edit date: October 11, 2026.
+- Full prompt: `technician-calgary.prompt.md`.
