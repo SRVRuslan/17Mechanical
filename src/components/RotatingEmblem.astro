@@ -1,0 +1,15 @@
+---
+import { Picture } from 'astro:assets';
+import emblem from '../assets/company-emblem.png';
+import { company } from '../data/company';
+import '../styles/rotating-emblem.css';
+---
+<button class="rotating-emblem" type="button" data-emblem-toggle aria-label={`Pause rotating service text around the ${company.name} emblem`} aria-pressed="false" title="Pause rotation">
+  <svg class="emblem-ring" viewBox="0 0 200 200" aria-hidden="true">
+    <defs><path id="services-emblem-text-path" d="M100 13a87 87 0 1 1 0 174a87 87 0 1 1 0-174" /></defs>
+    <text fill="currentColor" font-family="Georgia, 'Times New Roman', serif" font-size="11" font-weight="700">
+      <textPath href="#services-emblem-text-path" textLength="546.6" lengthAdjust="spacing">HEATING | AIR CONDITIONING | REFRIGERATION | VENTILATION | </textPath>
+    </text>
+  </svg>
+  <span class="emblem-core"><Picture src={emblem} alt="" formats={['webp']} widths={[128, 192, 288]} sizes="140px" width={140} loading="lazy" /></span>
+</button>

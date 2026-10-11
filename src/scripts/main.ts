@@ -41,6 +41,16 @@ desktopMedia.addEventListener('change', event => { if (event.matches) closeMenu(
 
 // Progressive enhancement: content remains visible if JavaScript or IO is unavailable.
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const emblemButtons = document.querySelectorAll<HTMLButtonElement>('[data-emblem-toggle]');
+emblemButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const paused = button.classList.toggle('is-paused');
+    button.setAttribute('aria-pressed', String(paused));
+    button.setAttribute('aria-label', `${paused ? 'Resume' : 'Pause'} rotating service text around the company emblem`);
+    button.title = paused ? 'Resume rotation' : 'Pause rotation';
+  });
+});
+if (emblemButtons.length) document.documentElement.classList.add('emblem-ready');
 if ('IntersectionObserver' in window && !reducedMotion.matches) {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {

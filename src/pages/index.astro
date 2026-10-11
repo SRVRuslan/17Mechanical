@@ -7,6 +7,7 @@ import '../styles/about-layout.css';
 import { Picture } from 'astro:assets';
 import Icon from '../components/Icon.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
+import RotatingEmblem from '../components/RotatingEmblem.astro';
 import { company } from '../data/company';
 import hero from '../assets/hero.png';
 import servicesPhoto from '../assets/services.png';
@@ -98,7 +99,7 @@ const schema = {
 
       <section class="section services-section" id="services" aria-labelledby="services-title">
         <div class="container">
-          <div class="section-heading" data-reveal><div><p class="eyebrow"><span class="little-line"></span> WHAT WE DO</p><h2 id="services-title">Three essentials.<br /><span class="muted">One dependable partner.</span></h2></div><p class="section-description">From a single system to an entire commercial property, bring your heating, airflow and cooling together with one team.</p></div>
+          <div class="section-heading services-heading" data-reveal><div><p class="eyebrow"><span class="little-line"></span> WHAT WE DO</p><h2 id="services-title">Three essentials.<br /><span class="muted">One dependable partner.</span></h2></div><RotatingEmblem /><p class="section-description">From a single system to an entire commercial property, bring your heating, airflow and cooling together with one team.</p></div>
           <div class="service-grid">
             {services.map((service, index) => <article id={service.id} class={`service-card ${service.colour}`} data-reveal style={`--reveal-delay:${index * 80}ms`}><div class="service-top"><span class="service-icon"><Icon name={service.icon} size={31} /></span><h3>{service.name}</h3></div><p>{service.text}</p><ul>{service.details.map(detail => <li><Icon name="check" size={16} />{detail}</li>)}</ul><a class="service-link" href="#contact" data-service={service.name}>Talk about {service.id === 'heating' ? 'heating' : service.id === 'cooling' ? 'cooling' : 'ventilation'}<Icon name="diagonal" size={20} /></a></article>)}
           </div>
