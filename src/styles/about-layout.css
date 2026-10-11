@@ -8,6 +8,20 @@
   padding-block: var(--about-padding);
 }
 
+.about-photo-credit {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  max-width: calc(100% - 28px);
+  padding: 6px 9px;
+  background: #040404d9;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.about-photo-credit:hover { text-decoration: underline; }
+.about-photo-credit:focus-visible { outline-offset: 3px; }
+
 /* Short windows can shrink the photograph; content may always expand the section. */
 @media (min-width: 851px) {
   .about-image {
