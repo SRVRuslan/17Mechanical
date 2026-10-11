@@ -1,6 +1,6 @@
 .hero-service-bar {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   width: 100%;
   min-height: 120px;
   margin-top: auto;
@@ -29,20 +29,22 @@
 .hero-service b { color: #fff; font-size: 21.42px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
 .hero-caption { bottom: 165px; }
 
-@media (max-width: 1100px) and (min-width: 851px) {
+@media (min-width: 1101px) and (max-width: 1400px) {
   .hero-service { grid-template-columns: 54px minmax(0, 1fr); }
   .hero-service > svg:last-child { display: none; }
 }
 
-@media (max-width: 1300px) and (min-width: 1101px) {
-  .hero-service { grid-template-columns: 54px minmax(0, 1fr); }
-  .hero-service > svg:last-child { display: none; }
+@media (min-width: 601px) and (max-width: 1100px) {
+  .hero-service-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero-service { min-height: 100px; }
+  .hero-service:nth-child(2n) { border-right: 0; padding-right: 0; }
+  .hero-service:nth-child(2n + 1) { padding-left: 0; }
+  .hero-service:nth-child(-n + 2) { border-bottom: 1px solid #ffffff25; }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 600px) {
   .hero-service-bar { grid-template-columns: 1fr; }
   .hero-service {
-    grid-template-columns: 54px minmax(0, 1fr) 36px;
     padding: 16px 0;
     border-right: 0;
     border-bottom: 1px solid #ffffff25;
@@ -55,4 +57,13 @@
   .hero-service > svg:first-child { width: 45px; height: 45px; }
   .hero-service > svg:last-child { width: 28px; height: 28px; }
   .hero-service b { font-size: 16.83px; }
+}
+
+/* Keep all four services balanced as the available space changes. */
+.service-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .service-grid { grid-template-columns: minmax(0, 1fr); }
 }

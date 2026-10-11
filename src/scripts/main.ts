@@ -82,7 +82,7 @@ form?.addEventListener('submit', event => {
   if (!form.reportValidity()) return;
   const values = new FormData(form);
   const value = (key: string) => String(values.get(key) || '').trim();
-  const subject = `Commercial HVAC enquiry — ${value('service')}`;
+  const subject = `Commercial HVAC/R enquiry — ${value('service')}`;
   const body = `To: ${form.dataset.company}\n\nName: ${value('name')}\nEmail: ${value('email')}\nCompany: ${value('company')}\nPhone: ${value('phone')}\nService: ${value('service')}\n\nProject details:\n${value('message')}`;
   const status = form.querySelector<HTMLElement>('.form-status');
   if (form.dataset.email) {
