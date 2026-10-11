@@ -33,6 +33,12 @@ Rebuild after changing these values. The actual domain is used for canonical, Op
 
 Without an email address, the form downloads an enquiry text file and explicitly says it has not been sent. With an email address, it opens a reviewable `mailto:` draft in the visitor's email app. For automatic delivery, connect a real form backend and update the explanatory copy; this version does not claim server delivery.
 
+## Google reviews
+
+The customer feedback section links to the company Google Maps profile supplied by the owner. The same profile is linked in the contact section and business JSON-LD. Override its URL with `PUBLIC_GOOGLE_MAPS_URL` if needed.
+
+This first version does not fetch or display review text, ratings or review counts. No Google API credentials were supplied. Automatic review loading is a separate integration: [Google Maps JavaScript Place reviews](https://developers.google.com/maps/documentation/javascript/place-reviews) requires a configured Google Cloud project and website-restricted API key. Google Places returns a limited selection of reviews rather than the entire review history; author and Google attribution must accompany API content. Keep the static site lightweight by loading that integration only when the section is needed.
+
 ## Design and performance
 
 - Brand colours: white `#FFFFFF`, orange `#F65607`, black `#040404`, silver `#BDBBBC`, royal blue `#0562E4`.

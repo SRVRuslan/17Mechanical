@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import { company } from '../data/company';
+import '../styles/reviews.css';
+---
+<section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
+  <div class="container reviews-layout">
+    <div class="reviews-copy" data-reveal>
+      <p class="eyebrow"><span class="little-line"></span> CUSTOMER FEEDBACK</p>
+      <h2 id="reviews-title">Your experience.<br /><span class="muted">Your words.</span></h2>
+      <p>Choosing a team for your building is personal. Explore customer feedback on Google, or share your experience working with 17 Mechanical.</p>
+    </div>
+    <div class="google-profile-card" data-reveal>
+      <div class="google-profile-source"><Icon name="pin" size={23} /><span>Google Maps</span><Icon name="diagonal" size={21} /></div>
+      <h3>{company.name}</h3>
+      <p>Calgary, Alberta</p>
+      <a class="google-reviews-link" href={company.googleMaps} target="_blank" rel="noopener noreferrer">Read reviews on Google <Icon name="diagonal" size={23} /><span class="sr-only"> (opens in a new tab)</span></a>
+      <p class="reviews-note">Already worked with us? You can also leave a review on our Google profile.</p>
+    </div>
+  </div>
+</section>
