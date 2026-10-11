@@ -27,7 +27,6 @@
 .hero-service > svg:last-child { width: 36px; height: 36px; }
 .hero-service > span { min-width: 0; }
 .hero-service b { color: #fff; font-size: 21.42px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
-.hero-caption { bottom: 165px; }
 
 @media (min-width: 1101px) and (max-width: 1400px) {
   .hero-service { grid-template-columns: 54px minmax(0, 1fr); }
