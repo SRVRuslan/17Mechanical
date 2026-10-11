@@ -22,6 +22,29 @@
 .about-photo-credit:hover { text-decoration: underline; }
 .about-photo-credit:focus-visible { outline-offset: 3px; }
 
+.about-image-note {
+  --note-inset: 22px;
+  --note-fade: clamp(48px, 6vw, 88px);
+  left: var(--note-inset);
+  right: auto;
+  width: max-content;
+  max-width: calc(100% - 2 * var(--note-inset) - var(--note-fade));
+  padding-right: 14px;
+}
+.about-image-note::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 100%;
+  width: var(--note-fade);
+  background: linear-gradient(90deg, #fff 0%, rgb(255 255 255 / .88) 25%, rgb(255 255 255 / .45) 60%, rgb(255 255 255 / .12) 83%, rgb(255 255 255 / 0) 100%);
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .about-image-note { --note-inset: 15px; }
+}
+
 /* Short windows can shrink the photograph; content may always expand the section. */
 @media (min-width: 851px) {
   .about-image {
