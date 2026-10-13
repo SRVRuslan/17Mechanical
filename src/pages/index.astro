@@ -68,7 +68,7 @@ const schema = {
         </a>
         <nav id="navigation" class="navigation" aria-label="Main navigation">
           <a href="#services">Our services</a><a href="#about">About us</a><a href="#maintenance">Maintenance</a><a href="#faq">FAQs</a>
-          <a class="button button-dark nav-cta" href="#contact">Let’s talk <Icon name="diagonal" size={17} /></a>
+          <a href="#contact">Contact us</a>
         </nav>
         <div class="header-contacts" role="group" aria-label="Contact and social links">
           <a href={`tel:${company.phone.replace(/[^+\d]/g, '')}`} aria-label={`Call ${company.phone}`} title={company.phone}><Icon name="phone" size={21} /></a>
@@ -89,9 +89,9 @@ const schema = {
             <p class="hero-description">Heating. Ventilation. Air conditioning. Refrigeration.<br />Built around your building. Focused on your business.</p>
             <div class="hero-actions"><a class="button button-orange" href="#contact">Discuss your project <Icon name="diagonal" size={19} /></a><a class="hero-secondary" href="#services">Explore our services <span><Icon name="arrow" size={18} /></span></a></div>
           </div>
-          <div class="hero-service-bar">
-            {services.map(service => <a href={`#${service.id}`} class={`hero-service ${service.colour}`}><Icon name={service.icon} size={54} /><span><b>{service.label}</b></span><Icon name="diagonal" size={36} /></a>)}
-          </div>
+        </div>
+        <div class="hero-service-bar">
+          {services.map(service => <a href={`#${service.id}`} class={`hero-service ${service.colour}`}><Icon name={service.icon} size={54} /><span><b>{service.label}</b></span><Icon name="diagonal" size={36} /></a>)}
         </div>
       </section>
 

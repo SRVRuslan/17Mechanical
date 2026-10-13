@@ -14,10 +14,8 @@
 .header-overlay-ready .menu-open .site-header { background: #040404f2; }
 .site-header .brand-name > span { color: var(--silver); }
 .site-header .brand-logo { border-radius: 50%; }
-.site-header .navigation > a:not(.button) { font-size: 19.8px; white-space: nowrap; }
+.site-header .navigation > a:not(.button) { font-size: 17px; white-space: nowrap; }
 .site-header .navigation > a:not(.button):hover { color: var(--orange); }
-.site-header .navigation .nav-cta { font-size: 19.8px; background: transparent; border-color: #ffffff40; white-space: nowrap; }
-.site-header .navigation .nav-cta:hover { background: #ffffff12; }
 .site-header .menu-toggle span { background: #fff; }
 
 .site-header .navigation { margin-left: auto; }
@@ -49,16 +47,22 @@
   border: 0;
 }
 
-/* The existing hero photograph extends behind the header as one continuous image. */
-.hero { margin-top: calc(-1 * var(--header-height)); }
+/* Share the hero photograph with the header and fill the visible screen. */
+.hero {
+  margin-top: calc(-1 * var(--header-height));
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
 .hero-inner {
-  min-height: calc(700px + var(--header-height));
-  padding-top: calc(70px + var(--header-height));
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+  padding-top: calc(var(--header-height) + clamp(32px, 8vh, 112px));
+  padding-bottom: clamp(28px, 5vh, 64px);
 }
-
-@media (min-width: 1800px) {
-  .hero-inner { min-height: calc(780px + var(--header-height)); }
-}
+.hero-copy { padding-bottom: 0; }
 
 @media (max-width: 1200px) {
   :root { --header-height: 78px; }
@@ -80,35 +84,38 @@
     box-shadow: 0 20px 30px #00000016;
   }
   .site-header .navigation.is-open { display: flex; align-items: stretch; flex-direction: column; gap: 0; }
-  .site-header .navigation > a:not(.button) { padding-block: 19px; border-bottom: 1px solid #ffffff25; font-size: 25.2px; }
-  .site-header .navigation .nav-cta { margin: 20px 0 0; }
+  .site-header .navigation > a:not(.button) { padding-block: 19px; border-bottom: 1px solid #ffffff25; font-size: 22px; }
   .site-header .menu-toggle[aria-expanded=true] span:first-child { transform: translateY(4px) rotate(45deg); }
   .site-header .menu-toggle[aria-expanded=true] span:last-child { transform: translateY(-4px) rotate(-45deg); }
-}
-
-@media (max-width: 1100px) {
-  .hero-inner { min-height: calc(640px + var(--header-height)); }
-}
-
-@media (max-width: 850px) {
-  :root { --header-height: 78px; }
-  .hero-inner {
-    min-height: calc(610px + var(--header-height));
-    padding-top: calc(65px + var(--header-height));
-  }
-  .site-header .navigation { background: #101010; }
-  .site-header .navigation > a:not(.button) { border-bottom-color: #ffffff25; }
-}
-
-@media (max-width: 600px) {
-  .hero-inner {
-    min-height: calc(640px + var(--header-height));
-    padding-top: calc(53px + var(--header-height));
-  }
 }
 
 @media (max-width: 480px) {
   .site-header .brand-name { display: none; }
   .site-header .brand { gap: 0; }
   .header-inner { gap: 8px; }
+}
+
+/* Compact spacing keeps the whole hero visible on shorter screens. */
+@media (max-height: 700px) {
+  .hero-inner {
+    padding-top: calc(var(--header-height) + 16px);
+    padding-bottom: 20px;
+  }
+}
+@media (max-width: 600px) and (max-height: 700px) {
+  .hero-eyebrow { margin-bottom: 12px; }
+  .hero h1 { font-size: clamp(27px, 7.5vw, 36px); line-height: 1.1; }
+  .hero-description { margin-top: 16px; font-size: 13px; line-height: 1.5; }
+  .hero-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; }
+  .hero-actions .button { min-height: 44px; padding: 12px; font-size: 10px; gap: 10px; }
+  .hero-secondary { font-size: 9px; gap: 6px; }
+  .hero-secondary > span { width: 22px; height: 22px; }
+}
+@media (min-width: 601px) and (max-height: 500px) {
+  .hero-inner { padding-top: calc(var(--header-height) + 12px); padding-bottom: 12px; }
+  .hero-eyebrow { font-size: 8px; margin-bottom: 12px; }
+  .hero h1 { font-size: clamp(28px, 7vh, 40px); line-height: 1.06; }
+  .hero-description { font-size: 13px; line-height: 1.5; margin-top: 12px; }
+  .hero-actions { margin-top: 14px; gap: 20px; }
+  .hero-actions .button { min-height: 44px; padding: 10px 16px; }
 }
