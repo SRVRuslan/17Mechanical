@@ -8,7 +8,7 @@
 .rotating-emblem {
   position: relative;
   display: block;
-  width: clamp(136px, 12vw, 184px);
+  width: clamp(96px, 9vw, 144px);
   aspect-ratio: 1;
   padding: 0;
   border: 0;
@@ -16,7 +16,7 @@
   background: transparent;
   color: var(--black);
   justify-self: center;
-  align-self: center;
+  align-self: end;
   flex-shrink: 0;
 }
 .emblem-ring {
@@ -42,9 +42,9 @@
   .services-heading .section-description { grid-column: 1 / -1; justify-self: start; max-width: 560px; }
 }
 @media (max-width: 600px) {
-  .services-section .services-heading { grid-template-columns: minmax(0, 1fr) 112px; gap: 20px 16px; }
+  .services-section .services-heading { grid-template-columns: minmax(0, 1fr) 96px; gap: 20px 16px; }
   .services-heading > div:first-child { grid-column: 1 / -1; }
-  .services-heading .rotating-emblem { width: 112px; grid-column: 2; grid-row: 2; }
+  .services-heading .rotating-emblem { width: 96px; grid-column: 2; grid-row: 2; }
   .services-heading .section-description { grid-column: 1; grid-row: 2; margin-top: 0; padding-bottom: 0; align-self: center; }
 }
 @media (prefers-reduced-motion: reduce) {
