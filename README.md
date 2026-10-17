@@ -54,3 +54,11 @@ SEO implementation follows [Astro image documentation](https://docs.astro.build/
 ## Hosting
 
 `.openai/hosting.json` identifies the private Sites deployment. It serves the static `dist/` directory. Keep source credentials out of repository files and environment examples.
+
+## Heat pumps and local SEO
+
+The homepage has a crawlable, server-rendered heat pump installation and service section (`/#heat-pumps`), linked from the navigation. Installation and service are separate enquiry choices and Service offers in JSON-LD; visible heat pump FAQs are generated from the same data as FAQPage markup. The four main HVAC/R cards and full-width hero links remain intact.
+
+The default canonical origin is the public Cloudflare Worker (`https://17mechanical.ruslan-savchuk-dev-ca.workers.dev`), not the private Sites preview. `SITE_URL` overrides it when a company domain is connected. The canonical, sitemap, robots Sitemap directive, Open Graph and schema URLs all use that origin. Submit `/sitemap.xml` for the public origin in the verified Google Search Console property; no Search Console credentials or indexing submission have been configured in this repository. Content and markup do not guarantee rankings or FAQ rich results.
+
+Program copy was checked on October 16, 2026 against the [Government of Canada’s October 9 announcement](https://www.canada.ca/en/environment-climate-change/news/2026/10/the-government-of-canada-is-supporting-new-measures-to-lower-energy-costs-and-reduce-emissions.html). It identifies the National Heat Pump Rebate as announced, links to official updates, and makes no promises about a client’s eligibility, payment amount or approval. Recheck official program information before changing this copy. Technical background follows [NRCan’s heat pump guide](https://natural-resources.canada.ca/energy-efficiency/energy-star/heating-cooling-heat-pump); no blanket savings, extreme-temperature performance or brand certifications are claimed.
