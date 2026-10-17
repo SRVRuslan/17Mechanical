@@ -1,6 +1,6 @@
 # 17 Mechanical HVAC/R Ltd.
 
-Responsive, single-page commercial HVAC website for Calgary, built with Astro and TypeScript. The supplied logo is preserved in `src/assets/company-logo.jpeg` and `public/company-logo.jpeg`. The header, footer, favicon and JSON-LD use `company-emblem.png`: the central emblem extracted with built-in imagegen, with the outer circular lettering removed and a transparent background. The edit prompt is saved in `src/assets/company-emblem.prompt.md`.
+Responsive, single-page residential and commercial HVAC website for Calgary and surrounding areas, built with Astro and TypeScript. The supplied logo is preserved in `src/assets/company-logo.jpeg` and `public/company-logo.jpeg`. The header, footer, favicon and JSON-LD use `company-emblem.png`: the central emblem extracted with built-in imagegen, with the outer circular lettering removed and a transparent background. The edit prompt is saved in `src/assets/company-emblem.prompt.md`.
 
 ## Run locally
 
@@ -54,3 +54,5 @@ SEO implementation follows [Astro image documentation](https://docs.astro.build/
 ## Hosting
 
 `.openai/hosting.json` identifies the private Sites deployment. It serves the static `dist/` directory. Keep source credentials out of repository files and environment examples.
+
+The service scope covers residential and commercial properties in Calgary and surrounding areas. Refrigeration remains explicitly commercial. The same service area is stated in the hero, About, FAQ, contacts and business/service JSON-LD, without inventing a radius or specific surrounding towns.
