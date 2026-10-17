@@ -35,9 +35,18 @@ Without an email address, the form downloads an enquiry text file and explicitly
 
 ## Google reviews
 
-The customer feedback section links to the company Google Maps profile supplied by the owner. The same profile is linked in the contact section and business JSON-LD. Override its URL with `PUBLIC_GOOGLE_MAPS_URL` if needed.
+The customer feedback section has separate links to the company Google Maps profile, Google review viewer, and Google review form. The review links use the company Place ID `ChIJV2Io1Ps3ri8RP6Zr7v5dtGI`, verified against its Google profile (CID `7112413061027964479`). Writing a review requires Google sign-in. The same profile is linked in the contact section and business JSON-LD. Override the destinations with `PUBLIC_GOOGLE_MAPS_URL`, `PUBLIC_GOOGLE_REVIEWS_URL`, and `PUBLIC_GOOGLE_WRITE_REVIEW_URL` if needed; when changing businesses, update all three together.
 
-This first version does not fetch or display review text, ratings or review counts. No Google API credentials were supplied. Automatic review loading is a separate integration: [Google Maps JavaScript Place reviews](https://developers.google.com/maps/documentation/javascript/place-reviews) requires a configured Google Cloud project and website-restricted API key. Google Places returns a limited selection of reviews rather than the entire review history; author and Google attribution must accompany API content. Keep the static site lightweight by loading that integration only when the section is needed.
+Automatic loading uses [Google Maps JavaScript Place reviews](https://developers.google.com/maps/documentation/javascript/place-reviews) and the new `Place.fetchFields` API. When the visitor approaches the section, the site requests the current rating, total review count, up to five reviews selected by Google in relevance order, and provider attributions. Author names, profile links, photos when available, dates, review links and Google Maps attribution accompany the reviews. Each new page visit fetches fresh data; it does not poll in the background, cache API content in browser storage, or require a scheduled build.
+
+To activate locally:
+
+1. In a Google Cloud project, enable billing, **Maps JavaScript API** and **Places API (New)**. Create a browser API key. Google may charge for the requested review fields; configure quotas in that project.
+2. Restrict the key to these APIs and **Websites (HTTP referrers)**. For development allow `http://localhost:4321/*` and `http://127.0.0.1:4321/*`; for publication add the exact public website origin. Do not use a server key: the browser key is intentionally public.
+3. Add `PUBLIC_GOOGLE_MAPS_API_KEY=your_browser_key` to the ignored `.env` file. `PUBLIC_GOOGLE_PLACE_ID` defaults to `ChIJV2Io1Ps3ri8RP6Zr7v5dtGI` for this company. Restart the dev server after changing `.env`; rebuild for a static production deployment. No key was supplied or committed with this integration.
+4. Open `http://localhost:4321/#reviews`. A successful response replaces the dated fallback and shows customer reviews. Invalid keys, denied requests, missing APIs, network failures and a 15-second timeout retain the dated fallback with a link to Google. A genuine response with zero reviews removes the previous rating instead of showing stale review counts.
+
+Without a configured key, no Google SDK or API request is made. The fallback rating (5.0, 5 reviews, dated October 17, 2026) is a manual snapshot from the owner's Google Maps screenshot, stored in `src/data/google-reviews.ts`. It is labelled with its date and does not update automatically. The supplied short profile link resolves to the same company CID and Place ID used by the review buttons. Update the snapshot and its date together after verifying the latest profile; review text is not copied or invented. See Google's [API security guidance](https://developers.google.com/maps/api-security-best-practices) and [attribution policies](https://developers.google.com/maps/documentation/javascript/policies) before activating a public deployment.
 
 ## Design and performance
 

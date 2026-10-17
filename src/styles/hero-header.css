@@ -13,7 +13,7 @@
 
 .header-overlay-ready .menu-open .site-header { background: #040404f2; }
 .site-header .brand-name { font-size: 17.402px; }
-.site-header .brand-name > span { color: var(--silver); }
+.site-header .brand-name > span { color: var(--silver); font-size: 10.4px; }
 .site-header .brand-logo { border-radius: 50%; }
 .site-header .navigation > a:not(.button) { font-size: 17px; white-space: nowrap; }
 .site-header .navigation > a:not(.button):hover { color: var(--orange); }
@@ -96,6 +96,7 @@
 
 @media (max-width: 600px) {
   .site-header .brand-name { font-size: 13.673px; }
+  .site-header .brand-name > span { font-size: 9.1px; }
 }
 
 @media (max-width: 480px) {

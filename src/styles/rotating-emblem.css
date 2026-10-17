@@ -1,14 +1,18 @@
 .services-section .services-heading {
   display: grid;
-  grid-template-columns: minmax(0, 1.75fr) auto minmax(0, 1fr);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
   gap: clamp(20px, 3vw, 42px);
 }
-.services-heading .section-description { justify-self: end; }
+.services-heading .section-description {
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+}
 .rotating-emblem {
   position: relative;
   display: block;
-  width: clamp(96px, 9vw, 144px);
+  width: clamp(129.6px, 12.15vw, 194.4px);
   aspect-ratio: 1;
   padding: 0;
   border: 0;
@@ -16,7 +20,7 @@
   background: transparent;
   color: var(--black);
   justify-self: center;
-  align-self: end;
+  align-self: center;
   flex-shrink: 0;
 }
 .emblem-ring {
@@ -38,14 +42,14 @@
 .emblem-core picture, .emblem-core img { width: 100%; height: auto; }
 @keyframes emblem-orbit { to { transform: rotate(360deg); } }
 @media (max-width: 900px) {
-  .services-section .services-heading { grid-template-columns: minmax(0, 1fr) auto; }
-  .services-heading .section-description { grid-column: 1 / -1; justify-self: start; max-width: 560px; }
+  .services-section .services-heading { grid-template-columns: minmax(0, 1fr); }
+  .services-heading .rotating-emblem { grid-column: 1; grid-row: 2; }
+  .services-heading .section-description { grid-column: 1; grid-row: 3; justify-self: center; max-width: 560px; margin-top: 0; }
 }
 @media (max-width: 600px) {
-  .services-section .services-heading { grid-template-columns: minmax(0, 1fr) 96px; gap: 20px 16px; }
-  .services-heading > div:first-child { grid-column: 1 / -1; }
-  .services-heading .rotating-emblem { width: 96px; grid-column: 2; grid-row: 2; }
-  .services-heading .section-description { grid-column: 1; grid-row: 2; margin-top: 0; padding-bottom: 0; align-self: center; }
+  .services-section .services-heading { gap: 20px; }
+  .services-heading .rotating-emblem { width: 129.6px; }
+  .services-heading .section-description { padding-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .emblem-ready .emblem-ring { animation: none; }
