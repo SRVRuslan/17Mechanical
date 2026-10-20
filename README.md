@@ -68,6 +68,8 @@ SEO implementation follows [Astro image documentation](https://docs.astro.build/
 
 `.openai/hosting.json` identifies the private Sites deployment. It serves the static `dist/` directory. Keep source credentials out of repository files and environment examples.
 
+`wrangler.jsonc` configures the public Cloudflare Worker `17mechanical` to serve `dist/` as static assets. It deliberately has no Worker script or Astro server adapter, so the generated `_headers` rules apply directly. The Git build uses `npm run build`, followed by `npx wrangler deploy`; the explicit configuration prevents automatic framework/adapter setup during deployment.
+
 The public domain is `https://17mechanical.ca/`. The supplied [PageSpeed report](https://pagespeed.web.dev/analysis/http-17mechanical-ca/w06ljnh54h?form_factor=mobile) tested the HTTP URL and reported that HTTP did not redirect to HTTPS. **Always Use HTTPS** was enabled for the `17mechanical.ca` Cloudflare zone on October 20, 2026; HTTP requests to the apex and `www` were verified to return 301 redirects to HTTPS. Keep this edge setting enabled. It is independent of Git pushes and cannot be configured through Astro's static build or Workers static-asset `_redirects`. See [Cloudflare's Always Use HTTPS documentation](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/).
 
 The report's legacy JavaScript and short cache-TTL findings refer to the Cloudflare Web Analytics beacon, which Cloudflare injects outside the site bundle. The site does not override or disable that analytics integration.

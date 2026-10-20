@@ -1,0 +1,9 @@
+{
+  // Serve Astro's static output directly, including the generated _headers.
+  // An explicit config avoids Wrangler's automatic framework/adapter setup.
+  "name": "17mechanical",
+  "compatibility_date": "2026-10-20",
+  "assets": {
+    "directory": "./dist"
+  }
+}
