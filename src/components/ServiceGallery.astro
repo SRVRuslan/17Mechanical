@@ -14,7 +14,7 @@ const photos = await Promise.all(galleryPhotos.map(async photo => ({
     {photos.map((photo, index) => (
       <li class="gallery-slide">
         <a class="gallery-photo" href={photo.full.src} data-gallery-photo data-caption={photo.alt} data-photo-index={index} aria-label={`Enlarge photo ${index + 1} of ${photos.length}: ${photo.alt}`}>
-          <Picture src={photo.src} alt={photo.alt} formats={['webp']} fallbackFormat="webp" widths={[320, 640, 960]} sizes="(max-width: 600px) 80vw, (max-width: 900px) 45vw, 30vw" loading="lazy" decoding="async" quality={80} />
+          <Picture src={photo.src} alt={photo.alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[320, 480, 576, 768, 960]} sizes="(max-width: 600px) calc(86vw - 31px), (max-width: 900px) calc(46vw - 8px), (max-width: 1408px) calc((92vw - 32px) / 3), 422px" loading="lazy" decoding="async" quality={60} />
           <span class="gallery-enlarge" aria-hidden="true"><Icon name="plus" size={22} /></span>
         </a>
       </li>

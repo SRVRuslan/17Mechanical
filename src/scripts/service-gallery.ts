@@ -27,9 +27,10 @@ if (galleryElement) {
   let autoplayEnabled = !reducedMotion.matches;
   let autoplayTimer: number | undefined;
   let galleryVisible = false;
-  let pointerInside = false;
   let pointerHeld = false;
-  let focusPaused = gallery.contains(document.activeElement);
+  const focusedElement = document.activeElement;
+  let focusPaused = focusedElement instanceof HTMLElement && gallery.contains(focusedElement)
+    && focusedElement.matches(':focus-visible');
 
   function updateAutoplay() {
     window.clearTimeout(autoplayTimer);
@@ -38,7 +39,7 @@ if (galleryElement) {
     pauseIcon.toggleAttribute('hidden', !autoplayEnabled);
     playIcon.toggleAttribute('hidden', autoplayEnabled);
     const playing = autoplayEnabled && galleryVisible && !document.hidden && !viewer.open
-      && !pointerInside && !pointerHeld && !focusPaused && track.scrollWidth > track.clientWidth + 2;
+      && !pointerHeld && !focusPaused && track.scrollWidth > track.clientWidth + 2;
     gallery.dataset.autoplay = playing ? 'playing' : autoplayEnabled ? 'paused' : 'stopped';
     status.setAttribute('aria-live', playing ? 'off' : 'polite');
     if (playing) {
@@ -83,19 +84,21 @@ if (galleryElement) {
     focusPaused = false;
     updateAutoplay();
   });
-  gallery.addEventListener('pointerenter', event => {
-    if (event.pointerType === 'mouse') { pointerInside = true; updateAutoplay(); }
+  gallery.addEventListener('focusin', event => {
+    // Keyboard focus pauses playback; clicking the controls must not leave it paused.
+    focusPaused = event.target instanceof HTMLElement && event.target.matches(':focus-visible');
+    updateAutoplay();
   });
-  gallery.addEventListener('pointerleave', event => {
-    if (event.pointerType === 'mouse') { pointerInside = false; updateAutoplay(); }
-  });
-  gallery.addEventListener('focusin', () => { focusPaused = true; updateAutoplay(); });
   gallery.addEventListener('focusout', () => window.setTimeout(() => {
     if (!gallery.contains(document.activeElement)) focusPaused = false;
     updateAutoplay();
   }, 0));
   track.addEventListener('pointerdown', () => { pointerHeld = true; updateAutoplay(); }, { passive: true });
-  const releasePointer = () => { pointerHeld = false; updateAutoplay(); };
+  const releasePointer = () => {
+    if (!pointerHeld) return;
+    pointerHeld = false;
+    updateAutoplay();
+  };
   window.addEventListener('pointerup', releasePointer, { passive: true });
   window.addEventListener('pointercancel', releasePointer, { passive: true });
   document.addEventListener('visibilitychange', updateAutoplay);

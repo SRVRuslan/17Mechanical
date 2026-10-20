@@ -4,7 +4,7 @@
   color: #fff;
   background: #040404f2;
   border-bottom-color: #ffffff20;
-  transition: background .25s, border-color .25s;
+  transition: background-color .25s, border-color .25s;
 }
 
 .header-overlay-ready .site-header:not(.is-scrolled) {

@@ -11,5 +11,5 @@ import '../styles/rotating-emblem.css';
       <textPath href="#services-emblem-text-path" textLength="546.6" lengthAdjust="spacing">HEATING | AIR CONDITIONING | REFRIGERATION | VENTILATION | </textPath>
     </text>
   </svg>
-  <span class="emblem-core"><Picture src={emblem} alt="" formats={['webp']} widths={[128, 192, 288]} sizes="140px" width={140} loading="lazy" /></span>
+  <span class="emblem-core"><Picture src={emblem} alt="" formats={['webp']} fallbackFormat="webp" widths={[96, 144, 192, 288]} sizes="(max-width: 1067px) 94px, (max-width: 1600px) 8.748vw, 140px" width={140} loading="lazy" quality={70} /></span>
 </button>

@@ -29,7 +29,7 @@ PUBLIC_CONTACT_EMAIL=17hvac@gmail.com
 PUBLIC_CONTACT_PHONE="+1 (403) 708-6905"
 ```
 
-Rebuild after changing these values. The actual domain is used for canonical, Open Graph, sitemap, robots and JSON-LD URLs. Do not deploy example contact information.
+Rebuild after changing these values. The default public URL is `https://17mechanical.ca/`, used for canonical, Open Graph, sitemap, robots and JSON-LD URLs. `SITE_URL` can override it for another deployment. Do not deploy example contact information.
 
 Without an email address, the form downloads an enquiry text file and explicitly says it has not been sent. With an email address, it opens a reviewable `mailto:` draft in the visitor's email app. For automatic delivery, connect a real form backend and update the explanatory copy; this version does not claim server delivery.
 
@@ -50,12 +50,14 @@ Without a configured key, no Google SDK or API request is made. The fallback rat
 
 ## Design and performance
 
-The services photo gallery uses 33 unique owner-supplied images from `Downloads/12` and `Downloads/7`, copied into `src/assets/gallery/`. One exact duplicate from folder `7` is omitted. It supports horizontal touch scrolling, centered previous/pause/next controls, keyboard navigation, and a full-screen image viewer with an additional 2× zoom. Automatic scrolling advances every two seconds while the gallery is visible and returns to the beginning after the final photos. It pauses on mouse hover, keyboard focus, touch interaction, an open viewer, and hidden browser tabs. Visitors can stop/resume it; reduced-motion preferences disable automatic playback by default. Escape and the close button dismiss the viewer and restore focus; image links remain usable without JavaScript. Astro produces responsive WebP thumbnails and larger viewer images, loaded only as needed. Update the gallery order and descriptions in `src/data/gallery.ts`.
+The services photo gallery uses 33 unique owner-supplied images from `Downloads/12` and `Downloads/7`, copied into `src/assets/gallery/`. One exact duplicate from folder `7` is omitted. It supports horizontal touch scrolling, centered previous/pause/next controls, keyboard navigation, and a full-screen image viewer with an additional 2× zoom. Automatic scrolling advances every two seconds while the gallery is visible and returns to the beginning after the final photos. It keeps playing while the mouse hovers over the gallery or clicks its arrow controls. It pauses for keyboard focus, touch interaction, an open viewer, and hidden browser tabs. Visitors can stop/resume it; reduced-motion preferences disable automatic playback by default. Escape and the close button dismiss the viewer and restore focus; image links remain usable without JavaScript. Astro produces responsive AVIF thumbnails with WebP fallbacks and separate, higher-quality WebP viewer images, loaded only as needed. Update the gallery order and descriptions in `src/data/gallery.ts`.
 
 - Brand colours: white `#FFFFFF`, orange `#F65607`, black `#040404`, silver `#BDBBBC`, royal blue `#0562E4`.
 - Original logo, generated editorial hero and mechanical-room images, and an edited technician image. The About image preserves the original generated mechanic and rooftop equipment; its background was replaced with a Calgary skyline based on a real photograph by [Mahesh Gupta on Unsplash](https://unsplash.com/photos/a-city-with-a-river-running-through-it-Q3hxoJk4Sgw), using built-in imagegen. It is an illustrative composite, not an unaltered documentary photo or a photograph of company staff. See `src/assets/ATTRIBUTION.md` and `src/assets/technician-calgary.prompt.md` for provenance and the edit prompt.
 - Astro Picture components generate responsive AVIF/WebP assets. Only the hero is loaded eagerly; other photographs are lazy-loaded.
-- Locally bundled Manrope font; no third-party font request, UI framework or animation library at runtime.
+- Locally bundled Latin Manrope font, preloaded to avoid a stylesheet-to-font request chain; no third-party font request, UI framework or animation library at runtime.
+- Responsive photo and emblem sizes match their rendered widths; thumbnail compression does not change the original files or the higher-quality gallery viewer images.
+- `public/_headers` gives content-hashed `/_astro/` assets a one-year immutable browser cache on Cloudflare. HTML keeps the platform's default revalidation behavior.
 - Flexible grids, fluid typography, mobile menu, visible keyboard focus, skip link, native FAQ accordions and labelled form controls.
 - IntersectionObserver section reveals respect reduced motion. Content remains visible without JavaScript.
 - JSON-LD includes HVACBusiness, service offers, WebSite and visible FAQ content. No fabricated address, credentials, testimonials, ratings or opening hours.
@@ -66,4 +68,21 @@ SEO implementation follows [Astro image documentation](https://docs.astro.build/
 
 `.openai/hosting.json` identifies the private Sites deployment. It serves the static `dist/` directory. Keep source credentials out of repository files and environment examples.
 
+The public domain is `https://17mechanical.ca/`. The supplied [PageSpeed report](https://pagespeed.web.dev/analysis/http-17mechanical-ca/w06ljnh54h?form_factor=mobile) tested the HTTP URL and reported that HTTP did not redirect to HTTPS. **Always Use HTTPS** was enabled for the `17mechanical.ca` Cloudflare zone on October 20, 2026; HTTP requests to the apex and `www` were verified to return 301 redirects to HTTPS. Keep this edge setting enabled. It is independent of Git pushes and cannot be configured through Astro's static build or Workers static-asset `_redirects`. See [Cloudflare's Always Use HTTPS documentation](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/).
+
+The report's legacy JavaScript and short cache-TTL findings refer to the Cloudflare Web Analytics beacon, which Cloudflare injects outside the site bundle. The site does not override or disable that analytics integration.
+
 The service scope covers residential and commercial properties in Calgary and surrounding areas. Refrigeration remains explicitly commercial. The same service area is stated in the hero, About, FAQ, contacts and business/service JSON-LD, without inventing a radius or specific surrounding towns.
+
+
+## Security headers
+
+`npm run build` runs `scripts/security-headers.mjs` after Astro. The script hashes the actual emitted inline scripts, including the inline application bundle and JSON-LD, and inserts the CSP into `dist/_headers`. Always use the full build command before deploying: a plain `astro build` does not generate the CSP. Never edit CSP hashes by hand or deploy the `public/_headers` template directly.
+
+Cloudflare static-asset responses apply the generated CSP, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Cross-Origin-Opener-Policy: same-origin`, `X-Frame-Options: DENY`, and a one-year HSTS policy. CSP also sets `frame-ancestors 'none'`, `base-uri 'none'`, `object-src 'none'`, blocks inline event handlers, and upgrades insecure resource URLs. The site is intentionally protected against embedding in frames, including third-party preview frames.
+
+Script execution allows the local bundles, the exact hashes of the built inline scripts, Google Maps API script hosts, and the Cloudflare Analytics beacon. It does not allow arbitrary inline scripts, `eval`, or every HTTPS script host. Inline CSS remains permitted for the existing image/reveal/zoom styles and Google SDK styling. This is a host-and-hash policy that preserves the optional Google SDK and Cloudflare analytics, not a nonce-based strict-dynamic policy.
+
+Trusted Types enforcement blocks unsafe DOM HTML/script sinks in supporting browsers. The Google Maps loader uses a narrowly validated `TrustedScriptURL` policy that only accepts `https://maps.googleapis.com/maps/api/js`. No permissive default HTML policy is created. Browsers without Trusted Types continue using CSP and the existing safe DOM/text APIs. The reviews SDK remains inactive without an API key; supplying a valid key is still required to fetch real reviews.
+
+HSTS applies only to the responding host. `includeSubDomains` and preload enrollment are deliberately omitted so the site does not silently impose permanent HTTPS requirements on unknown future subdomains. No HSTS preload submission is performed. These code-based response headers become live only after publication; the Cloudflare HTTPS redirect is already enabled independently.

@@ -6,6 +6,31 @@ type MapsWindow = Window & {
   gm_authFailure?: () => void;
 };
 
+type MapsScriptPolicy = { createScriptURL: (value: string) => unknown };
+type TrustedMapsWindow = Window & {
+  trustedTypes?: {
+    createPolicy: (name: string, rules: { createScriptURL: (value: string) => string }) => MapsScriptPolicy;
+  };
+};
+let mapsScriptPolicy: MapsScriptPolicy | undefined;
+
+function mapsScriptURL(value: string): string {
+  const trustedTypes = (window as TrustedMapsWindow).trustedTypes;
+  if (!trustedTypes) return value;
+  mapsScriptPolicy ??= trustedTypes.createPolicy('17mechanical-google-maps', {
+    createScriptURL(input) {
+      const url = new URL(input);
+      if (url.origin !== 'https://maps.googleapis.com' || url.pathname !== '/maps/api/js'
+        || url.username || url.password) {
+        throw new TypeError('Only the Google Maps API script is allowed');
+      }
+      return url.href;
+    },
+  });
+  // lib.dom types script.src as string; the runtime value remains TrustedScriptURL.
+  return mapsScriptPolicy.createScriptURL(value) as string;
+}
+
 async function loadPlaces(key: string): Promise<google.maps.PlacesLibrary> {
   if (typeof google !== 'undefined' && google.maps?.importLibrary) {
     return google.maps.importLibrary('places') as Promise<google.maps.PlacesLibrary>;
@@ -26,7 +51,7 @@ async function loadPlaces(key: string): Promise<google.maps.PlacesLibrary> {
       key, v: 'weekly', loading: 'async', language: 'en', region: 'CA',
       callback: '__mechanicalMapsReady',
     });
-    script.src = `https://maps.googleapis.com/maps/api/js?${params}`;
+    script.src = mapsScriptURL(`https://maps.googleapis.com/maps/api/js?${params}`);
     script.async = true;
     script.onerror = () => reject(new Error('Google Maps could not load'));
     document.head.append(script);
