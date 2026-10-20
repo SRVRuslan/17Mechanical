@@ -21,7 +21,7 @@ The production site is a static build in `dist/`; it does not require a server a
 
 ## Company details
 
-The contact details in `src/data/company.ts` come from the supplied business card: Roman Aloshyn, +1 (403) 708-6905, and 17hvac@gmail.com. The phone and email are clickable and included in the business JSON-LD. To override them or configure a custom domain, copy `.env.example` to `.env`:
+The company contact details in `src/data/company.ts` come from the supplied business card: +1 (403) 708-6905 and 17hvac@gmail.com. The phone and email are clickable and included in the business JSON-LD. To override them or configure a custom domain, copy `.env.example` to `.env`:
 
 ```dotenv
 SITE_URL=https://your-company-domain.ca
@@ -49,6 +49,8 @@ To activate locally:
 Without a configured key, no Google SDK or API request is made. The fallback rating (5.0, 5 reviews, dated October 17, 2026) is a manual snapshot from the owner's Google Maps screenshot, stored in `src/data/google-reviews.ts`. It is labelled with its date and does not update automatically. The supplied short profile link resolves to the same company CID and Place ID used by the review buttons. Update the snapshot and its date together after verifying the latest profile; review text is not copied or invented. See Google's [API security guidance](https://developers.google.com/maps/api-security-best-practices) and [attribution policies](https://developers.google.com/maps/documentation/javascript/policies) before activating a public deployment.
 
 ## Design and performance
+
+The services photo gallery uses 33 unique owner-supplied images from `Downloads/12` and `Downloads/7`, copied into `src/assets/gallery/`. One exact duplicate from folder `7` is omitted. It supports horizontal touch scrolling, centered previous/pause/next controls, keyboard navigation, and a full-screen image viewer with an additional 2× zoom. Automatic scrolling advances every two seconds while the gallery is visible and returns to the beginning after the final photos. It pauses on mouse hover, keyboard focus, touch interaction, an open viewer, and hidden browser tabs. Visitors can stop/resume it; reduced-motion preferences disable automatic playback by default. Escape and the close button dismiss the viewer and restore focus; image links remain usable without JavaScript. Astro produces responsive WebP thumbnails and larger viewer images, loaded only as needed. Update the gallery order and descriptions in `src/data/gallery.ts`.
 
 - Brand colours: white `#FFFFFF`, orange `#F65607`, black `#040404`, silver `#BDBBBC`, royal blue `#0562E4`.
 - Original logo, generated editorial hero and mechanical-room images, and an edited technician image. The About image preserves the original generated mechanic and rooftop equipment; its background was replaced with a Calgary skyline based on a real photograph by [Mahesh Gupta on Unsplash](https://unsplash.com/photos/a-city-with-a-river-running-through-it-Q3hxoJk4Sgw), using built-in imagegen. It is an illustrative composite, not an unaltered documentary photo or a photograph of company staff. See `src/assets/ATTRIBUTION.md` and `src/assets/technician-calgary.prompt.md` for provenance and the edit prompt.

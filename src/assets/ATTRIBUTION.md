@@ -20,3 +20,10 @@
 - This is an AI-assisted illustrative composite; it is not an unaltered photograph of company staff or a documented company project.
 - Edit date: October 11, 2026.
 - Full prompt: `technician-calgary.prompt.md`.
+
+# Services gallery
+
+- Thirty-three unique images supplied by the owner in `Downloads/12` and `Downloads/7`, added October 19, 2026. One exact duplicate in folder `7` (`Unknown.png`, identical to `Unknown-7.png`) is omitted.
+- Source copies are retained in `src/assets/gallery/`; `src/data/gallery.ts` defines their order and descriptions.
+- Astro generates responsive WebP thumbnails and larger WebP images for the viewer. The supplied source images are not altered.
+- The gallery is labelled as HVAC/R imagery; it does not assert that every image documents a completed company project.

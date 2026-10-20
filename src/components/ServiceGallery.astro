@@ -1,0 +1,56 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import { galleryPhotos } from '../data/gallery';
+import '../styles/service-gallery.css';
+
+const photos = await Promise.all(galleryPhotos.map(async photo => ({
+  ...photo,
+  full: await getImage({ src: photo.src, width: photo.src.width, format: 'webp', quality: 88 }),
+})));
+---
+<section class="service-gallery" aria-label="HVAC/R photo gallery" aria-roledescription="carousel" data-service-gallery data-reveal>
+  <ul class="gallery-track" id="service-gallery-track" tabindex="0" aria-label="Photo gallery. Use the arrow keys to scroll." data-gallery-track>
+    {photos.map((photo, index) => (
+      <li class="gallery-slide">
+        <a class="gallery-photo" href={photo.full.src} data-gallery-photo data-caption={photo.alt} data-photo-index={index} aria-label={`Enlarge photo ${index + 1} of ${photos.length}: ${photo.alt}`}>
+          <Picture src={photo.src} alt={photo.alt} formats={['webp']} fallbackFormat="webp" widths={[320, 640, 960]} sizes="(max-width: 600px) 80vw, (max-width: 900px) 45vw, 30vw" loading="lazy" decoding="async" quality={80} />
+          <span class="gallery-enlarge" aria-hidden="true"><Icon name="plus" size={22} /></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="gallery-controls">
+    <div class="gallery-hint"><span class="status-dot" aria-hidden="true"></span><p>HVAC/R GALLERY<span>Select a photo to enlarge</span></p></div>
+    <div class="gallery-progress" aria-hidden="true"><span data-gallery-progress></span></div>
+    <div class="gallery-control-buttons">
+      <button class="gallery-control gallery-previous" type="button" aria-label="Previous photos" aria-controls="service-gallery-track" data-gallery-previous disabled><Icon name="arrow" size={21} /></button>
+      <button class="gallery-control" type="button" aria-label="Start automatic slideshow" aria-pressed="false" aria-controls="service-gallery-track" data-gallery-autoplay>
+        <span data-autoplay-pause hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg></span>
+        <span data-autoplay-play><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="m8 5 11 7-11 7Z" /></svg></span>
+      </button>
+      <button class="gallery-control" type="button" aria-label="Next photos" aria-controls="service-gallery-track" data-gallery-next><Icon name="arrow" size={21} /></button>
+    </div>
+    <span class="sr-only" role="status" data-gallery-status></span>
+  </div>
+  <dialog class="gallery-viewer" aria-label="Enlarged HVAC/R photo" aria-describedby="gallery-viewer-caption" data-gallery-viewer>
+    <div class="gallery-viewer-toolbar">
+      <span>HVAC/R GALLERY</span>
+      <div>
+        <button class="gallery-viewer-button" type="button" aria-label="Zoom in" aria-pressed="false" data-viewer-zoom><span data-zoom-symbol aria-hidden="true">+</span></button>
+        <button class="gallery-viewer-button" type="button" aria-label="Close photo viewer" data-viewer-close autofocus><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+    <div class="gallery-viewer-frame" data-viewer-frame>
+      <div class="gallery-viewer-stage" data-viewer-stage><img class="gallery-viewer-image" data-viewer-image alt="" decoding="async" draggable="false" /></div>
+      <p class="gallery-viewer-loading" role="status" data-viewer-loading hidden>Loading photo…</p>
+    </div>
+    <button class="gallery-viewer-button gallery-viewer-previous" type="button" aria-label="Previous photo" data-viewer-previous><Icon name="arrow" size={24} /></button>
+    <button class="gallery-viewer-button gallery-viewer-next" type="button" aria-label="Next photo" data-viewer-next><Icon name="arrow" size={24} /></button>
+    <p class="gallery-viewer-caption" id="gallery-viewer-caption" data-viewer-caption aria-live="polite"></p>
+  </dialog>
+</section>
+
+<script>
+  import '../scripts/service-gallery';
+</script>

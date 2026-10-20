@@ -87,7 +87,7 @@ form?.addEventListener('submit', event => {
   const status = form.querySelector<HTMLElement>('.form-status');
   if (form.dataset.email) {
     window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    if (status) status.textContent = 'Your email draft is ready. Please review and send it in your email app. Your enquiry has not been submitted through this website.';
+    if (status) status.textContent = `Your default email app should open with a message to ${form.dataset.email}. Review it and click Send there. If nothing opens, check that a default email app is configured on your device.`;
   } else {
     const url = URL.createObjectURL(new Blob([`${subject}\n\n${body}\n\nThis enquiry has not been sent.\n`], { type: 'text/plain;charset=utf-8' }));
     const download = document.createElement('a');
