@@ -18,7 +18,7 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID?.trim() || 'ChIJV2Io1Ps3r
       <p>Choosing a team for your building is personal. Explore customer feedback on Google, or share your experience working with 17 Mechanical.</p>
     </div>
     <div class="google-profile-card" data-reveal>
-      <a class="google-profile-source" href={company.googleMaps} target="_blank" rel="noopener noreferrer"><Icon name="pin" size={23} /><span>Google Maps</span><Icon name="diagonal" size={21} /><span class="sr-only"> — company profile (opens in a new tab)</span></a>
+      <a class="google-profile-source" href={company.googleMaps} target="_blank" rel="noopener noreferrer"><img class="google-maps-attribution" src="/google-maps-attribution.svg" alt="Google Maps" width="98" height="18" loading="lazy" /><Icon name="diagonal" size={21} /><span class="sr-only"> — company profile (opens in a new tab)</span></a>
       <h3>{company.name}</h3>
       <p>Calgary, Alberta</p>
       <div class="google-rating" data-google-rating role="group" aria-label={`${googleReviewsSnapshot.rating.toFixed(1)} out of 5, based on ${googleReviewsSnapshot.reviewCount} Google reviews`}>
@@ -38,7 +38,7 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID?.trim() || 'ChIJV2Io1Ps3r
         <a class="google-reviews-link" href={company.googleReviews} target="_blank" rel="noopener noreferrer">Read reviews on Google <Icon name="diagonal" size={23} /><span class="sr-only"> (opens in a new tab)</span></a>
         <a class="google-reviews-link" href={company.googleWriteReview} target="_blank" rel="noopener noreferrer">Leave a review <Icon name="diagonal" size={23} /><span class="sr-only"> on Google (opens in a new tab)</span></a>
       </div>
-      <p class="reviews-note">Reviews open on Google. To leave a review, sign in to your Google account.</p>
+      <p class="reviews-note">Reviews are provided by Google Maps. To leave a review, sign in to Google. <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></p>
     </div>
   </div>
 </section>

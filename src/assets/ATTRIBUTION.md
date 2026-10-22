@@ -27,3 +27,8 @@
 - Source copies are retained in `src/assets/gallery/`; `src/data/gallery.ts` defines their order and descriptions.
 - Astro generates responsive AVIF thumbnails with WebP fallbacks and larger WebP images for the viewer. The supplied source images are not altered.
 - The gallery is labelled as HVAC/R imagery; it does not assert that every image documents a completed company project.
+
+# Google Maps attribution
+
+- `public/google-maps-attribution.svg` is the unmodified official `GoogleMaps_Logo_DarkGray.svg` from Google's [attribution assets](https://developers.google.com/static/maps/documentation/images/Google_Maps_Attribution_Assets.zip).
+- Displayed beside Google reviews at 18px high with the required clear space. Source and usage guidance: https://developers.google.com/maps/documentation/javascript/policies

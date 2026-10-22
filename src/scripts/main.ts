@@ -1,17 +1,25 @@
 const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
 const navigation = document.querySelector<HTMLElement>('#navigation');
 const header = document.querySelector<HTMLElement>('.site-header');
+const menuDismiss = document.querySelector<HTMLButtonElement>('.menu-dismiss');
 if (header) {
-  const updateHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+  const updateHeader = () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 12);
+    if (menuButton?.getAttribute('aria-expanded') === 'true') closeMenu();
+  };
   updateHeader();
   document.documentElement.classList.add('header-overlay-ready');
   window.addEventListener('scroll', updateHeader, { passive: true });
 }
 function closeMenu() {
+  const restoreFocus = navigation?.contains(document.activeElement)
+    || document.activeElement === menuDismiss;
   menuButton?.setAttribute('aria-expanded', 'false');
   menuButton?.setAttribute('aria-label', 'Open navigation');
   navigation?.classList.remove('is-open');
   document.body.classList.remove('menu-open');
+  if (menuDismiss) menuDismiss.hidden = true;
+  if (restoreFocus) menuButton?.focus({ preventScroll: true });
 }
 menuButton?.addEventListener('click', () => {
   const expanded = menuButton.getAttribute('aria-expanded') !== 'true';
@@ -19,6 +27,12 @@ menuButton?.addEventListener('click', () => {
   menuButton.setAttribute('aria-label', expanded ? 'Close navigation' : 'Open navigation');
   navigation?.classList.toggle('is-open', expanded);
   document.body.classList.toggle('menu-open', expanded);
+  if (menuDismiss) menuDismiss.hidden = !expanded;
+});
+menuDismiss?.addEventListener('click', closeMenu);
+document.addEventListener('click', event => {
+  if (menuButton?.getAttribute('aria-expanded') !== 'true' || !(event.target instanceof Node)) return;
+  if (!navigation?.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
 });
 navigation?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('keydown', event => {
@@ -27,13 +41,13 @@ document.addEventListener('keydown', event => {
     menuButton.focus();
   }
   if (event.key === 'Tab' && menuButton?.getAttribute('aria-expanded') === 'true') {
-    const links = navigation?.querySelectorAll<HTMLAnchorElement>('a');
-    const lastLink = links?.[links.length - 1];
-    if (event.shiftKey && document.activeElement === menuButton && lastLink) {
-      event.preventDefault(); lastLink.focus();
-    } else if (!event.shiftKey && document.activeElement === lastLink) {
-      event.preventDefault(); menuButton.focus();
-    }
+    const links = Array.from(navigation?.querySelectorAll<HTMLAnchorElement>('a') || []);
+    const controls: HTMLElement[] = [menuButton, ...links];
+    const index = controls.indexOf(document.activeElement as HTMLElement);
+    const next = index < 0 ? (event.shiftKey ? controls.length - 1 : 0)
+      : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+    event.preventDefault();
+    controls[next].focus();
   }
 });
 const desktopMedia = matchMedia('(min-width: 1201px)');
@@ -76,27 +90,51 @@ document.querySelectorAll<HTMLAnchorElement>('[data-service]').forEach(link => {
 });
 
 const form = document.querySelector<HTMLFormElement>('#enquiry-form');
-form?.querySelector<HTMLButtonElement>('button[type="submit"]')?.removeAttribute('disabled');
-form?.addEventListener('submit', event => {
+const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+submitButton?.removeAttribute('disabled');
+const contactEmail = form?.dataset.email || '17hvac@gmail.com';
+let sendingEnquiry = false;
+form?.addEventListener('submit', async event => {
   event.preventDefault();
-  if (!form.reportValidity()) return;
+  if (sendingEnquiry || !form.reportValidity()) return;
   const values = new FormData(form);
-  const value = (key: string) => String(values.get(key) || '').trim();
-  const subject = `HVAC/R enquiry — ${value('service')}`;
-  const body = `To: ${form.dataset.company}\n\nName: ${value('name')}\nEmail: ${value('email')}\nCompany: ${value('company')}\nPhone: ${value('phone')}\nService: ${value('service')}\n\nProject details:\n${value('message')}`;
   const status = form.querySelector<HTMLElement>('.form-status');
-  if (form.dataset.email) {
-    window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    if (status) status.textContent = `Your default email app should open with a message to ${form.dataset.email}. Review it and click Send there. If nothing opens, check that a default email app is configured on your device.`;
-  } else {
-    const url = URL.createObjectURL(new Blob([`${subject}\n\n${body}\n\nThis enquiry has not been sent.\n`], { type: 'text/plain;charset=utf-8' }));
-    const download = document.createElement('a');
-    download.href = url;
-    download.download = '17-mechanical-project-enquiry.txt';
-    document.body.append(download);
-    download.click();
-    download.remove();
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-    if (status) status.textContent = 'Your enquiry has been prepared as a text file. It has not been sent. Direct contact details will be available here soon.';
+  const label = submitButton?.querySelector<HTMLElement>('[data-submit-label]');
+  sendingEnquiry = true;
+  form.setAttribute('aria-busy', 'true');
+  if (submitButton) submitButton.disabled = true;
+  if (label) label.textContent = 'Sending…';
+  if (status) { status.textContent = 'Sending your enquiry…'; delete status.dataset.state; }
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(values)),
+      signal: AbortSignal.timeout(30_000),
+    });
+    const result: unknown = await response.json();
+    if (!result || typeof result !== 'object') throw new Error('Invalid response');
+    const data = result as { ok?: boolean; preview?: boolean; message?: unknown };
+    const message = typeof data.message === 'string' ? data.message : '';
+    if (response.ok && data.ok === true) {
+      form.reset();
+      if (status) { status.textContent = message || 'Thank you! Your enquiry has been sent.'; status.dataset.state = 'success'; }
+    } else {
+      // Failed submissions and local previews keep every field for another attempt.
+      if (status) {
+        status.textContent = message || `Your request could not be sent. Please try again or email ${contactEmail} directly.`;
+        status.dataset.state = data.preview ? 'preview' : 'error';
+      }
+    }
+  } catch {
+    if (status) {
+      status.textContent = `We could not confirm delivery. Your details are still here. Please try again or email ${contactEmail} directly.`;
+      status.dataset.state = 'error';
+    }
+  } finally {
+    sendingEnquiry = false;
+    form.removeAttribute('aria-busy');
+    if (submitButton) submitButton.disabled = false;
+    if (label) label.textContent = 'Send';
   }
 });

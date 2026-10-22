@@ -1,9 +1,16 @@
 {
-  // Serve Astro's static output directly, including the generated _headers.
-  // An explicit config avoids Wrangler's automatic framework/adapter setup.
+  // Static pages retain their generated _headers. Only /api/* runs the Worker first.
   "name": "17mechanical",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-10-20",
   "assets": {
-    "directory": "./dist"
-  }
+    "directory": "./dist",
+    "run_worker_first": ["/api/*"]
+  },
+  "send_email": [{ "name": "EMAIL", "destination_address": "17hvac@gmail.com", "remote": true }],
+  "ratelimits": [{
+    "name": "CONTACT_RATE_LIMIT",
+    "namespace_id": "1001",
+    "simple": { "limit": 5, "period": 60 }
+  }]
 }

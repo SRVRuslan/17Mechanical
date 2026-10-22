@@ -17,21 +17,24 @@ npm run build
 npm run preview
 ```
 
-The production site is a static build in `dist/`; it does not require a server adapter.
+The pages are a static build in `dist/`; a small Cloudflare Worker handles `/api/contact`. No Astro server adapter is required. `npm run dev` starts Astro and the local Worker on port 8788, with the form API proxied through Astro. The normal dev form sends real emails through the verified remote binding and requires Cloudflare login (`npx wrangler login`). Use `npm run dev:preview` for an offline preview that never sends email. `npm run preview:cloudflare` serves the built site and API together; `npm run preview` alone serves only static pages.
 
 ## Company details
 
-The company contact details in `src/data/company.ts` come from the supplied business card: +1 (403) 708-6905 and 17hvac@gmail.com. The phone and email are clickable and included in the business JSON-LD. To override them or configure a custom domain, copy `.env.example` to `.env`:
+The company contact details in `src/data/company.ts` come from the supplied business card: +1 (403) 708-6905 and 17hvac@gmail.com. The phone and email are clickable and included in the business JSON-LD. The email is shared by the public site and the Worker in `src/data/contact.ts`. To override the phone or configure a custom domain, copy `.env.example` to `.env`:
 
 ```dotenv
 SITE_URL=https://your-company-domain.ca
-PUBLIC_CONTACT_EMAIL=17hvac@gmail.com
 PUBLIC_CONTACT_PHONE="+1 (403) 708-6905"
 ```
 
 Rebuild after changing these values. The default public URL is `https://17mechanical.ca/`, used for canonical, Open Graph, sitemap, robots and JSON-LD URLs. `SITE_URL` can override it for another deployment. Do not deploy example contact information.
 
-Without an email address, the form downloads an enquiry text file and explicitly says it has not been sent. With an email address, it opens a reviewable `mailto:` draft in the visitor's email app. For automatic delivery, connect a real form backend and update the explanatory copy; this version does not claim server delivery.
+The contact form posts JSON to the same-origin `/api/contact` endpoint. The Worker validates field lengths, email, service, origin and request size, rejects the hidden spam field, and limits requests to five per minute per IP using Cloudflare's rate-limiting binding. The recipient is fixed server-side to **17hvac@gmail.com**, and the sender is **website@17mechanical.ca**. The visitor's address is used only as Reply-To. The public email and the server recipient use the same value from `src/data/contact.ts`. Update it and the verified `send_email.destination_address` together if the inbox changes; a test verifies that they match.
+
+Production delivery uses Cloudflare's native `send_email` binding. Activate Email Routing for `17mechanical.ca` with its required DNS records and verify `17hvac@gmail.com` under Email Service → Destination Addresses. No Gmail password or browser-visible email API key is needed. Cloudflare permits sending to a verified destination on its free plan; see [destination address setup](https://developers.cloudflare.com/email-service/configuration/email-routing-addresses/) and the [Workers sending API](https://developers.cloudflare.com/email-service/api/send-emails/workers-api/). On October 20, 2026, the destination was verified and Email Routing was enabled with its managed DNS records. A single technical test through the Cloudflare sending API reported delivery to the Gmail recipient. The updated site still needs publication before visitors can use this endpoint.
+
+The button reads “Send”, prevents duplicate submissions while pending, and resets the fields only after the email service accepts the request. Failed delivery retains all entries and shows a retry/direct-email option. The response confirms submission to the service, not that Gmail has placed the message in the inbox. `npm run dev` sends real emails; `npm run dev:preview` and `npm run preview:cloudflare` explicitly disable remote bindings and set `CONTACT_MODE:preview`. Preview never calls the email binding, reports that no email was sent, and retains the fields. Never set this variable on the production Worker. `npm test` covers validation, recipient restrictions, delivery failure, rate limiting and honest preview behavior without sending actual email.
 
 ## Google reviews
 
@@ -46,6 +49,8 @@ To activate locally:
 3. Add `PUBLIC_GOOGLE_MAPS_API_KEY=your_browser_key` to the ignored `.env` file. `PUBLIC_GOOGLE_PLACE_ID` defaults to `ChIJV2Io1Ps3ri8RP6Zr7v5dtGI` for this company. Restart the dev server after changing `.env`; rebuild for a static production deployment. No key was supplied or committed with this integration.
 4. Open `http://localhost:4321/#reviews`. A successful response replaces the dated fallback and shows customer reviews. Invalid keys, denied requests, missing APIs, network failures and a 15-second timeout retain the dated fallback with a link to Google. A genuine response with zero reviews removes the previous rating instead of showing stale review counts.
 
+The reviews card includes the unmodified official Google Maps attribution asset and links to `/privacy/` and `/terms/`. These pages explain form delivery, the browser-to-Google request and the applicable Google terms. In the Google Cloud project `17 Mechanical` (`mechanical-512304`), no API key or linked billing account was present when checked on October 20, 2026. A key-creation form has been prepared in the authenticated console with website restrictions, but Google requires API selection/activation before it can be saved. No key has been added to the local environment yet. Finish billing setup, enable Maps JavaScript API and Places API (New), and restrict the key to those two APIs before activation.
+
 Without a configured key, no Google SDK or API request is made. The fallback rating (5.0, 5 reviews, dated October 17, 2026) is a manual snapshot from the owner's Google Maps screenshot, stored in `src/data/google-reviews.ts`. It is labelled with its date and does not update automatically. The supplied short profile link resolves to the same company CID and Place ID used by the review buttons. Update the snapshot and its date together after verifying the latest profile; review text is not copied or invented. See Google's [API security guidance](https://developers.google.com/maps/api-security-best-practices) and [attribution policies](https://developers.google.com/maps/documentation/javascript/policies) before activating a public deployment.
 
 ## Design and performance
@@ -58,7 +63,7 @@ The services photo gallery uses 33 unique owner-supplied images from `Downloads/
 - Locally bundled Latin Manrope font, preloaded to avoid a stylesheet-to-font request chain; no third-party font request, UI framework or animation library at runtime.
 - Responsive photo and emblem sizes match their rendered widths; thumbnail compression does not change the original files or the higher-quality gallery viewer images.
 - `public/_headers` gives content-hashed `/_astro/` assets a one-year immutable browser cache on Cloudflare. HTML keeps the platform's default revalidation behavior.
-- Flexible grids, fluid typography, mobile menu, visible keyboard focus, skip link, native FAQ accordions and labelled form controls.
+- Flexible grids, fluid typography, visible keyboard focus, skip link, native FAQ accordions and labelled form controls. The mobile menu closes via its toggle, backdrop, a navigation link, Escape, or page scrolling. It does not lock the page scroll; short screens keep a 48px dismissal area beneath the independently scrollable menu. Keyboard focus stays in the open menu and returns without changing the page scroll position when dismissed.
 - IntersectionObserver section reveals respect reduced motion. Content remains visible without JavaScript.
 - JSON-LD includes HVACBusiness, service offers, WebSite and visible FAQ content. No fabricated address, credentials, testimonials, ratings or opening hours.
 
@@ -68,7 +73,7 @@ SEO implementation follows [Astro image documentation](https://docs.astro.build/
 
 `.openai/hosting.json` identifies the private Sites deployment. It serves the static `dist/` directory. Keep source credentials out of repository files and environment examples.
 
-`wrangler.jsonc` configures the public Cloudflare Worker `17mechanical` to serve `dist/` as static assets. It deliberately has no Worker script or Astro server adapter, so the generated `_headers` rules apply directly. The Git build uses `npm run build`, followed by `npx wrangler deploy`; the explicit configuration prevents automatic framework/adapter setup during deployment.
+`wrangler.jsonc` configures the public Cloudflare Worker `17mechanical` to serve `dist/` as static assets. Only `/api/*` is routed to `worker/index.ts` first. Static pages and images keep their generated `_headers` rules; the contact API sets its own no-store/security headers. The Git build uses `npm run build`, followed by `npx wrangler deploy`; the explicit configuration prevents automatic framework/adapter setup during deployment.
 
 The public domain is `https://17mechanical.ca/`. The supplied [PageSpeed report](https://pagespeed.web.dev/analysis/http-17mechanical-ca/w06ljnh54h?form_factor=mobile) tested the HTTP URL and reported that HTTP did not redirect to HTTPS. **Always Use HTTPS** was enabled for the `17mechanical.ca` Cloudflare zone on October 20, 2026; HTTP requests to the apex and `www` were verified to return 301 redirects to HTTPS. Keep this edge setting enabled. It is independent of Git pushes and cannot be configured through Astro's static build or Workers static-asset `_redirects`. See [Cloudflare's Always Use HTTPS documentation](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/).
 

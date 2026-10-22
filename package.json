@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev --host 127.0.0.1",
+    "dev": "node scripts/dev.mjs",
     "build": "astro build && node scripts/security-headers.mjs",
     "preview": "astro preview --host 127.0.0.1",
-    "check": "astro check"
+    "check": "astro check",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "preview:cloudflare": "wrangler dev --local --ip 127.0.0.1 --port 8788 --var CONTACT_MODE:preview",
+    "dev:preview": "node scripts/dev.mjs --preview-email"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.0",
@@ -16,6 +19,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
     "@types/google.maps": "^3.66.7",
-    "typescript": "^5.9.0"
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.0",
+    "wrangler": "4.151.3"
   }
 }

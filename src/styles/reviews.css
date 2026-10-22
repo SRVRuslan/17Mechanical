@@ -32,6 +32,7 @@
 .google-profile-source span { color: #111; font-size: 16px; font-weight: 650; }
 .google-profile-source > svg:last-of-type { margin-left: auto; }
 .google-profile-source:hover span:not(.sr-only) { color: var(--blue); }
+.google-maps-attribution { display: block; height: 18px; width: auto; margin: 10px 10px 5px; }
 .google-profile-card h3 { font-size: clamp(21px, 2vw, 27px); letter-spacing: -.04em; line-height: 1.35; }
 .google-profile-card > p { font-size: 12px; color: #717171; margin-top: 10px; line-height: 1.8; }
 .google-rating { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 24px; }
@@ -76,6 +77,7 @@
   outline-offset: 5px;
 }
 .google-profile-card .reviews-note { margin-top: 17px; font-size: 11px; }
+.reviews-note a { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 850px) {
   .reviews-layout { grid-template-columns: 1fr; }
   .reviews-copy > p:last-child { max-width: 600px; }

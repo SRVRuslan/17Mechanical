@@ -18,6 +18,7 @@
 .site-header .navigation > a:not(.button) { font-size: 17px; white-space: nowrap; }
 .site-header .navigation > a:not(.button):hover { color: var(--orange); }
 .site-header .menu-toggle span { background: #fff; }
+.menu-dismiss { display: none; }
 
 .site-header .navigation { margin-left: auto; }
 .header-contacts { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
@@ -71,6 +72,17 @@
   .header-inner { gap: 12px; }
   .header-contacts { margin-left: auto; }
   .site-header .menu-toggle { display: block; flex-shrink: 0; }
+  .menu-dismiss:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset: var(--header-height) 0 0;
+    z-index: 39;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: #04040470;
+    touch-action: pan-y pinch-zoom;
+  }
   .site-header .navigation {
     display: none;
     position: absolute;
@@ -80,8 +92,9 @@
     margin-left: 0;
     padding: 24px max(20px, 4vw) 35px;
     background: #101010;
-    max-height: calc(100dvh - var(--header-height));
+    max-height: calc(100dvh - var(--header-height) - 48px);
     overflow: auto;
+    overscroll-behavior-y: contain;
     box-shadow: 0 20px 30px #00000016;
   }
   .site-header .navigation.is-open { display: flex; align-items: stretch; flex-direction: column; gap: 0; }

@@ -1,9 +1,11 @@
+import { contactEmail } from './contact';
+
 /** Contact details supplied on the company business card. */
 export const company = {
   name: '17 Mechanical HVAC/R Ltd.',
   shortName: '17',
   logo: '/company-emblem.png',
-  email: import.meta.env.PUBLIC_CONTACT_EMAIL || '17hvac@gmail.com',
+  email: contactEmail,
   phone: import.meta.env.PUBLIC_CONTACT_PHONE || '+1 (403) 708-6905',
   instagram: 'https://www.instagram.com/17mechanicalhvac_r/',
   googleMaps: import.meta.env.PUBLIC_GOOGLE_MAPS_URL || 'https://maps.app.goo.gl/Fdtsm1ajTBEA5n4p7',
