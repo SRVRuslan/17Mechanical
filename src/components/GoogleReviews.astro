@@ -1,49 +1,16 @@
 ---
 import Icon from './Icon.astro';
-import { company } from '../data/company';
 import { googleReviewsSnapshot, googleReviewExcerpts } from '../data/google-reviews';
 import '../styles/reviews.css';
 
 const snapshotDate = new Intl.DateTimeFormat('en-CA', {
   month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
 }).format(new Date(`${googleReviewsSnapshot.asOf}T00:00:00Z`));
-const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY?.trim() || '';
-const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID?.trim() || 'ChIJV2Io1Ps3ri8RP6Zr7v5dtGI';
 ---
-<section class="section reviews-section" id="reviews" aria-labelledby="reviews-title" data-google-reviews data-api-key={apiKey || undefined} data-place-id={placeId} data-reviews-state="fallback">
-  <div class="container reviews-layout">
-    <div class="reviews-copy" data-reveal>
-      <p class="eyebrow"><span class="little-line"></span> CUSTOMER FEEDBACK</p>
-      <h2 id="reviews-title">Your experience.<br /><span class="muted">Your words.</span></h2>
-      <p>Choosing a team for your building is personal. Explore customer feedback on Google, or share your experience working with 17 Mechanical.</p>
-    </div>
-    <div class="google-profile-card" data-reveal>
-      <a class="google-profile-source" href={company.googleMaps} target="_blank" rel="noopener noreferrer"><img class="google-maps-attribution" src="/google-maps-attribution.svg" alt="Google Maps" width="98" height="18" loading="lazy" /><Icon name="diagonal" size={21} /><span class="sr-only"> — company profile (opens in a new tab)</span></a>
-      <h3>{company.name}</h3>
-      <p>Calgary, Alberta</p>
-      <div class="google-rating" data-google-rating role="group" aria-label={`${googleReviewsSnapshot.rating.toFixed(1)} out of 5, based on ${googleReviewsSnapshot.reviewCount} Google reviews`}>
-        <strong>{googleReviewsSnapshot.rating.toFixed(1)}</strong>
-        <span class="google-rating-stars" aria-hidden="true">★★★★★</span>
-        <span class="google-rating-count">{googleReviewsSnapshot.reviewCount} Google reviews</span>
-      </div>
-      <p class="google-rating-date" data-rating-date>As of <time datetime={googleReviewsSnapshot.asOf}>{snapshotDate}</time>. View the latest on Google.</p>
-      <p class="google-reviews-status" data-reviews-status role="status" aria-live="polite" hidden></p>
-      <div class="google-live-reviews" data-live-reviews hidden>
-        <h4>Customer reviews</h4>
-        <p class="google-reviews-selection">Selected by Google, sorted by relevance.</p>
-        <div class="google-reviews-list" data-reviews-list></div>
-      </div>
-      <div class="google-place-attributions" data-place-attributions hidden></div>
-      <div class="google-review-actions">
-        <a class="google-reviews-link" href={company.googleReviews} target="_blank" rel="noopener noreferrer">Read reviews on Google <Icon name="diagonal" size={23} /><span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="google-reviews-link" href={company.googleWriteReview} target="_blank" rel="noopener noreferrer">Leave a review <Icon name="diagonal" size={23} /><span class="sr-only"> on Google (opens in a new tab)</span></a>
-      </div>
-      <p class="reviews-note">Reviews are provided by Google Maps. To leave a review, sign in to Google. <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></p>
-    </div>
-  </div>
+<section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
   <div class="container google-static-reviews" data-static-reviews>
     <div class="google-static-heading">
-      <h3>Customer reviews</h3>
+      <h2 id="reviews-title">Customer reviews</h2>
       <p>Selected excerpts · Verified <time datetime={googleReviewsSnapshot.asOf}>{snapshotDate}</time> · Updated manually</p>
     </div>
     <div class="google-static-grid">
@@ -51,7 +18,7 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID?.trim() || 'ChIJV2Io1Ps3r
         <article class="google-static-review">
           <div class="google-review-author">
             <span class="google-review-initials" aria-hidden="true">{review.author.split(' ').map(name => name[0]).join('')}</span>
-            <h4><a href={review.url} target="_blank" rel="noopener noreferrer">{review.author}<span class="sr-only"> — Google review (opens in a new tab)</span></a></h4>
+            <h3><a href={review.url} target="_blank" rel="noopener noreferrer">{review.author}<span class="sr-only"> — Google review (opens in a new tab)</span></a></h3>
           </div>
           <span class="google-static-stars" role="img" aria-label={`${review.rating} out of 5 stars`}>★★★★★</span>
           <blockquote cite={review.url} lang="en"><p>“{review.text}”</p></blockquote>
@@ -61,7 +28,3 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID?.trim() || 'ChIJV2Io1Ps3r
     </div>
   </div>
 </section>
-
-<script>
-  import '../scripts/google-reviews';
-</script>

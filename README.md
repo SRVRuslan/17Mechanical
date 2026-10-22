@@ -38,20 +38,9 @@ The button reads “Send”, prevents duplicate submissions while pending, and r
 
 ## Google reviews
 
-The customer feedback section has separate links to the company Google Maps profile, Google review viewer, and Google review form. The review links use the company Place ID `ChIJV2Io1Ps3ri8RP6Zr7v5dtGI`, verified against its Google profile (CID `7112413061027964479`). Writing a review requires Google sign-in. The same profile is linked in the contact section and business JSON-LD. Override the destinations with `PUBLIC_GOOGLE_MAPS_URL`, `PUBLIC_GOOGLE_REVIEWS_URL`, and `PUBLIC_GOOGLE_WRITE_REVIEW_URL` if needed; when changing businesses, update all three together.
-
-Optional automatic loading uses [Google Maps JavaScript Place reviews](https://developers.google.com/maps/documentation/javascript/place-reviews) and the new `Place.fetchFields` API. When the visitor approaches the section, the site requests the current rating, total review count, up to five reviews selected by Google in relevance order, and provider attributions. Author names, profile links, photos when available, dates, review links and Google Maps attribution accompany the reviews. Each new page visit fetches fresh data; it does not poll in the background, cache API content in browser storage, or require a scheduled build.
-
-To activate locally:
-
-1. In a Google Cloud project, enable billing, **Maps JavaScript API** and **Places API (New)**. Create a browser API key. Google may charge for the requested review fields; configure quotas in that project.
-2. Restrict the key to these APIs and **Websites (HTTP referrers)**. For development allow `http://localhost:4321/*` and `http://127.0.0.1:4321/*`; for publication add the exact public website origin. Do not use a server key: the browser key is intentionally public.
-3. Add `PUBLIC_GOOGLE_MAPS_API_KEY=your_browser_key` to the ignored `.env` file. `PUBLIC_GOOGLE_PLACE_ID` defaults to `ChIJV2Io1Ps3ri8RP6Zr7v5dtGI` for this company. Restart the dev server after changing `.env`; rebuild for a static production deployment. No key was supplied or committed with this integration.
-4. Open `http://localhost:4321/#reviews`. A successful response replaces the dated fallback and shows customer reviews. Invalid keys, denied requests, missing APIs, network failures and a 15-second timeout retain the dated fallback with a link to Google. A genuine response with zero reviews removes the previous rating instead of showing stale review counts.
-
 The default section works without a Google API key, billing account or third-party widget. `src/data/google-reviews.ts` contains a dated manual snapshot (5.0 from 5 reviews, verified October 21, 2026) and three short, unedited English excerpts from separate public customer reviews by Oleg Komarovskyi, Mike Kripak and Viktoria Boiko. Each excerpt is fewer than 25 words and links to the full original using its Google Maps share link. All three links were checked against the corresponding Google review IDs. Update the snapshot date and the excerpts together after verifying the public profile; do not invent or expand quoted text.
 
-Static cards render in the initial HTML, remain available without JavaScript and are labelled “Updated manually”. No Google SDK or API request is made without a configured key. If the optional API integration successfully loads live reviews, the static cards are hidden to avoid duplicates; an API error retains them. The reviews section includes the unmodified official Google Maps attribution asset and links to `/privacy/` and `/terms/`. Before activating live reviews, follow Google's [API security guidance](https://developers.google.com/maps/api-security-best-practices) and [attribution policies](https://developers.google.com/maps/documentation/javascript/policies).
+Static cards render in the initial HTML, remain available without JavaScript and are labelled “Updated manually”. The former “Your experience. Your words.” introduction, business profile/rating card and live API loader are no longer rendered. The legacy loader source remains unused; no Google SDK or API request is made by the static section, even if an API key is present in the environment. The Google Maps profile is still linked from the contact section and business JSON-LD. Privacy and Terms remain available in the footer.
 
 ## Design and performance
 
