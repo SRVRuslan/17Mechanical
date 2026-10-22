@@ -1,0 +1,23 @@
+.contact-copy {
+  min-width: 0;
+}
+
+@media (min-width: 851px) {
+  .contact-grid {
+    align-items: stretch;
+  }
+
+  .contact-copy {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;
+  }
+
+  .contact-details {
+    margin-bottom: 24px;
+  }
+
+  .contact-brand-line {
+    margin-top: auto;
+  }
+}
