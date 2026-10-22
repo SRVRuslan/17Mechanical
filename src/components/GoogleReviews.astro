@@ -1,18 +1,13 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import { googleReviewsSnapshot, googleReviewExcerpts } from '../data/google-reviews';
+import { googleReviewExcerpts } from '../data/google-reviews';
 import '../styles/reviews.css';
-
-const snapshotDate = new Intl.DateTimeFormat('en-CA', {
-  month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
-}).format(new Date(`${googleReviewsSnapshot.asOf}T00:00:00Z`));
 ---
 <section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
   <div class="container google-static-reviews" data-static-reviews>
     <div class="google-static-heading">
       <h2 id="reviews-title">Customer reviews</h2>
-      <p>Selected excerpts · Verified <time datetime={googleReviewsSnapshot.asOf}>{snapshotDate}</time> · Updated manually</p>
     </div>
     <div class="google-static-grid">
       {googleReviewExcerpts.map(review => (

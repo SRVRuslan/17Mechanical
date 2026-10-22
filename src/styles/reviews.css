@@ -3,7 +3,6 @@
 .google-review-author a { display: inline-flex; align-items: center; min-height: 44px; }
 .google-static-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px 24px; margin-bottom: 20px; }
 .google-static-heading h2 { font-size: 22px; letter-spacing: -.035em; }
-.google-static-heading p { color: #717171; font-size: 11px; line-height: 1.7; }
 .google-static-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .google-static-review { display: flex; flex-direction: column; min-width: 0; padding: clamp(22px, 2.5vw, 32px); background: #f7f7f7; border: 1px solid var(--line); border-top: 2px solid var(--blue); }
 .google-static-review h3 { font-size: 14px; line-height: 1.5; }
