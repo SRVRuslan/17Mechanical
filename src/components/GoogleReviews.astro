@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { googleReviewsSnapshot, googleReviewExcerpts } from '../data/google-reviews';
 import '../styles/reviews.css';
@@ -17,7 +18,7 @@ const snapshotDate = new Intl.DateTimeFormat('en-CA', {
       {googleReviewExcerpts.map(review => (
         <article class="google-static-review">
           <div class="google-review-author">
-            <span class="google-review-initials" aria-hidden="true">{review.author.split(' ').map(name => name[0]).join('')}</span>
+            <Image class="google-review-photo" src={review.photo} alt="" width={72} height={72} format="webp" loading="lazy" decoding="async" />
             <h3><a href={review.url} target="_blank" rel="noopener noreferrer">{review.author}<span class="sr-only"> — Google review (opens in a new tab)</span></a></h3>
           </div>
           <span class="google-static-stars" role="img" aria-label={`${review.rating} out of 5 stars`}>★★★★★</span>

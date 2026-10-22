@@ -31,4 +31,11 @@
 # Google Maps attribution
 
 - `public/google-maps-attribution.svg` is the unmodified official `GoogleMaps_Logo_DarkGray.svg` from Google's [attribution assets](https://developers.google.com/static/maps/documentation/images/Google_Maps_Attribution_Assets.zip).
-- Displayed beside Google reviews at 18px high with the required clear space. Source and usage guidance: https://developers.google.com/maps/documentation/javascript/policies
+- Retained from the former Google profile block; currently unused. Source and usage guidance: https://developers.google.com/maps/documentation/javascript/policies
+
+# Google review author avatars
+
+- `review-authors/oleg-komarovskyi.png`, `review-authors/mike-kripak.png`, and `review-authors/viktoria-boiko.png` are the actual public profile avatars shown beside those authors' Google Maps reviews, verified and downloaded October 21, 2026.
+- Sources: [Oleg Komarovskyi's review](https://maps.app.goo.gl/xHZrGEYaNcPDGsBbA), [Mike Kripak's review](https://maps.app.goo.gl/SfJXxHZ1jqHWXmo96), and [Viktoria Boiko's review](https://maps.app.goo.gl/My5mQNKa9cXC1J3L9).
+- Used only to identify the corresponding review authors. Viktoria's profile uses a graphic rather than a portrait. The downloaded source images are unmodified; Astro generates small WebP versions for display.
+- Avatars are local snapshots, like the excerpts; they do not update automatically. Source review links remain visible on every card.
