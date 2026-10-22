@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { company } from '../data/company';
-import { googleReviewsSnapshot } from '../data/google-reviews';
+import { googleReviewsSnapshot, googleReviewExcerpts } from '../data/google-reviews';
 import '../styles/reviews.css';
 
 const snapshotDate = new Intl.DateTimeFormat('en-CA', {
@@ -39,6 +39,25 @@ const placeId = import.meta.env.PUBLIC_GOOGLE_PLACE_ID?.trim() || 'ChIJV2Io1Ps3r
         <a class="google-reviews-link" href={company.googleWriteReview} target="_blank" rel="noopener noreferrer">Leave a review <Icon name="diagonal" size={23} /><span class="sr-only"> on Google (opens in a new tab)</span></a>
       </div>
       <p class="reviews-note">Reviews are provided by Google Maps. To leave a review, sign in to Google. <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></p>
+    </div>
+  </div>
+  <div class="container google-static-reviews" data-static-reviews>
+    <div class="google-static-heading">
+      <h3>Customer reviews</h3>
+      <p>Selected excerpts · Verified <time datetime={googleReviewsSnapshot.asOf}>{snapshotDate}</time> · Updated manually</p>
+    </div>
+    <div class="google-static-grid">
+      {googleReviewExcerpts.map(review => (
+        <article class="google-static-review">
+          <div class="google-review-author">
+            <span class="google-review-initials" aria-hidden="true">{review.author.split(' ').map(name => name[0]).join('')}</span>
+            <h4><a href={review.url} target="_blank" rel="noopener noreferrer">{review.author}<span class="sr-only"> — Google review (opens in a new tab)</span></a></h4>
+          </div>
+          <span class="google-static-stars" role="img" aria-label={`${review.rating} out of 5 stars`}>★★★★★</span>
+          <blockquote cite={review.url} lang="en"><p>“{review.text}”</p></blockquote>
+          <a class="google-static-source" href={review.url} target="_blank" rel="noopener noreferrer">Read full review on Google <Icon name="diagonal" size={17} /><span class="sr-only"> (opens in a new tab)</span></a>
+        </article>
+      ))}
     </div>
   </div>
 </section>
