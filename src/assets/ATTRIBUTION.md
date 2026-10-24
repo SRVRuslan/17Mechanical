@@ -39,3 +39,8 @@
 - Sources: [Oleg Komarovskyi's review](https://maps.app.goo.gl/xHZrGEYaNcPDGsBbA), [Mike Kripak's review](https://maps.app.goo.gl/SfJXxHZ1jqHWXmo96), and [Viktoria Boiko's review](https://maps.app.goo.gl/My5mQNKa9cXC1J3L9).
 - Used only to identify the corresponding review authors. Viktoria's profile uses a graphic rather than a portrait. The downloaded source images are unmodified; Astro generates small WebP versions for display.
 - Avatars are local snapshots, like the excerpts; they do not update automatically. Source review links remain visible on every card.
+
+# Website developer logo
+
+- `developer-logo.webp` is the original RS logo supplied through the developer’s website, downloaded October 23, 2026 from https://ruslansavchuk.com/assets/rs-mark.webp.
+- Used in the footer credit linking to https://ruslansavchuk.com, at the developer’s request. Astro generates a smaller WebP for display; the downloaded source is retained unchanged.
