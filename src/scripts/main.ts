@@ -55,6 +55,21 @@ desktopMedia.addEventListener('change', event => { if (event.matches) closeMenu(
 
 // Progressive enhancement: content remains visible if JavaScript or IO is unavailable.
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const heroServices = document.querySelector<HTMLElement>('.hero-service-bar');
+if (heroServices) {
+  let iconsVisible = !('IntersectionObserver' in window);
+  const updateIconMotion = () => heroServices.classList.toggle('icons-animate',
+    iconsVisible && !document.hidden && !reducedMotion.matches);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      iconsVisible = entries[0].isIntersecting;
+      updateIconMotion();
+    }).observe(heroServices);
+  }
+  document.addEventListener('visibilitychange', updateIconMotion);
+  reducedMotion.addEventListener('change', updateIconMotion);
+  updateIconMotion();
+}
 const emblemButtons = document.querySelectorAll<HTMLButtonElement>('[data-emblem-toggle]');
 emblemButtons.forEach(button => {
   button.addEventListener('click', () => {

@@ -26,6 +26,50 @@
 .hero-service > span { min-width: 0; }
 .hero-service b { color: #fff; font-size: 21.42px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
 
+/* Animate only the hero icons; text, arrows and service-card icons stay still. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-service-icon-heat .service-icon-part-0,
+  .hero-service-icon-heat .service-icon-part-1 {
+    animation: hero-heat-rise 2.8s ease-in-out infinite;
+  }
+  .hero-service-icon-heat .service-icon-part-1 { animation-delay: -.9s; }
+  .hero-service-icon-wind path { animation: hero-airflow 3s ease-in-out infinite; }
+  .hero-service-icon-wind .service-icon-part-1 { animation-delay: -.8s; }
+  .hero-service-icon-wind .service-icon-part-2 { animation-delay: -1.6s; }
+  .hero-service-icon-snow path {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: hero-cooling-turn 18s linear infinite;
+  }
+  .hero-service-icon-refrigerator path { animation: hero-cold-pulse 3.8s ease-in-out infinite; }
+  .hero-service-icon-heatpump .service-icon-part-2 {
+    transform-box: view-box;
+    transform-origin: 56.25% 47.916667%;
+    animation: hero-cooling-turn 3.6s linear infinite;
+  }
+  .hero-service-bar:not(.icons-animate) .hero-service-icon path { animation-play-state: paused; }
+}
+
+@keyframes hero-heat-rise {
+  0%, 100% { transform: translateY(.6px); opacity: .7; }
+  50% { transform: translateY(-1.1px); opacity: 1; }
+}
+@keyframes hero-airflow {
+  0%, 100% { transform: translateX(-.7px); opacity: .65; }
+  50% { transform: translateX(1px); opacity: 1; }
+}
+@keyframes hero-cooling-turn {
+  to { transform: rotate(360deg); }
+}
+@keyframes hero-cold-pulse {
+  0%, 100% { opacity: .65; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-service-icon path { animation: none; }
+}
+
 @media (min-width: 1101px) and (max-width: 1600px) {
   .hero-service { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding-inline: 24px; }
   .hero-service > svg:first-child { width: 44px; height: 44px; }
